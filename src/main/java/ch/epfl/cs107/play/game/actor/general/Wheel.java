@@ -66,7 +66,7 @@ public class Wheel extends GameEntity implements Actor {
 	}
 	
 	public void detach() {
-		
+		constraint = null;
 	}
 	
 	public float getSpeed() {
