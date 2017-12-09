@@ -22,6 +22,7 @@ public class Wheel extends GameEntity implements Actor {
 	private ActorGame game ;
 	private WheelConstraint constraint;
 	private Entity vehicle;
+	private Part part;
 	
 	public Wheel(ActorGame game,boolean fixed, Vector position, float radius, String name) {
 		super(game, fixed, position);
@@ -30,7 +31,7 @@ public class Wheel extends GameEntity implements Actor {
 		Circle circle = new Circle (radius);
 		partBuilder.setShape(circle);
 		partBuilder.setFriction(10.0f);
-		partBuilder.build();
+		part = partBuilder.build();
 		graphics.setParent(getEntity());
 	}
 	
@@ -72,7 +73,9 @@ public class Wheel extends GameEntity implements Actor {
 		return constraint.getMotorSpeed() ;
 	}
 	
-	
+	public Part getPart() {
+		return part;
+	}
 	
 	public void destroy() {
 		detach();

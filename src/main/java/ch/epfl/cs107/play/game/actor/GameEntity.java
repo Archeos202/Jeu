@@ -27,7 +27,7 @@ public abstract class GameEntity {
 	protected Entity getEntity() {
 		return entity;
 	}
-
+	
 	protected ActorGame getOwner() {
 		return game;
 	}

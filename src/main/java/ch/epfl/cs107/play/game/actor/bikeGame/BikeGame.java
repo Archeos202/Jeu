@@ -1,6 +1,5 @@
 package ch.epfl.cs107.play.game.actor.bikeGame;
 
-import ch.epfl.cs107.play.game.actor.Actor;
 import ch.epfl.cs107.play.game.actor.ActorGame;
 import ch.epfl.cs107.play.game.actor.GameEntity;
 import ch.epfl.cs107.play.game.actor.crate.Crate;
@@ -12,9 +11,9 @@ import ch.epfl.cs107.play.math.WheelConstraintBuilder;
 import ch.epfl.cs107.play.window.Window;
 
 public class BikeGame extends ActorGame {
-	 
-	private Entity finish ;
-	private Actor bike;
+
+	private Finish finish;
+	private Bike bike;
 	
 	public boolean begin(Window window, FileSystem fileSystem) {
 		super.begin(window, fileSystem);
@@ -26,11 +25,11 @@ public class BikeGame extends ActorGame {
 		addActor(crate2);
 		Crate crate3 = new Crate(this , false, new Vector(2.0f ,6.0f), 1, 1, "crate.1.png");
 		addActor(crate3);
-		Bike bike = new Bike(this, new Vector(4.0f, 5.0f));
+		bike = new Bike(this, new Vector(4.0f, 5.0f));
 		addActor(bike);
 		setViewCandidate(bike);
 		//ActorGame.setViewCandidate(bike); ??????????
-		Finish finish = new Finish(this, new Vector(15.0f, 3.0f));
+		finish = new Finish(this, new Vector(15.0f, 3.0f));
 		addActor(finish);
 		
 		
@@ -38,7 +37,12 @@ public class BikeGame extends ActorGame {
 	}
 	public void update(float deltaTime) {
 		super.update(deltaTime);
-		deleteActor(bike);
+		if (finish.getHit()) {
+			System.out.println("finish");
+		}
+		if (bike.getHit()) {
+			System.out.println("ouch");
+		}
 	}
 	
 }
