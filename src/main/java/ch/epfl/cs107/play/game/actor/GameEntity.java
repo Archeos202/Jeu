@@ -11,8 +11,20 @@ public abstract class GameEntity {
 
 	public GameEntity(ActorGame game, boolean fixed, Vector position) {
 		if (((game) == null) || (position == null)) {
+			
+			try {
+				if (game == null) {
+					throw new NullPointerException("Il faut un jeu.");
+				} else if (position == null) {
+					throw new NullPointerException("Position nulle pas acceptée.");
+				}
+			}
 
-			// NullPointerException; A VOIR VITE EXCEPTIONS
+			catch (NullPointerException e) {
+				System.out.println(e.getMessage());
+				System.exit(0);
+			}
+
 
 		}
 		this.game = game;
