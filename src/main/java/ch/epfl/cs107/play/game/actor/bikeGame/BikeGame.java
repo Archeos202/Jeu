@@ -3,6 +3,8 @@ package ch.epfl.cs107.play.game.actor.bikeGame;
 import java.awt.Color;
 import java.awt.event.KeyEvent;
 
+import com.sun.xml.internal.bind.v2.runtime.reflect.ListIterator;
+
 import ch.epfl.cs107.play.game.actor.Actor;
 import ch.epfl.cs107.play.game.actor.ActorGame;
 import ch.epfl.cs107.play.game.actor.GameEntity;
@@ -18,6 +20,7 @@ import ch.epfl.cs107.play.window.Window;
 
 public class BikeGame extends ActorGame {
 
+	
 	private Finish finish;
 	private Bike bike;
 	private TextGraphics message;
@@ -79,8 +82,10 @@ public class BikeGame extends ActorGame {
 	public void end() {
 		for (Actor actor : ActorList) {
 			actor.destroy();
+			
+		}
+		
 		}
 	}
 	
-}
 
