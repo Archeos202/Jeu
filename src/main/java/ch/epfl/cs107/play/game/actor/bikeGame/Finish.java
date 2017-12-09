@@ -8,8 +8,6 @@ import ch.epfl.cs107.play.game.actor.GameEntity;
 import ch.epfl.cs107.play.game.actor.ImageGraphics;
 import ch.epfl.cs107.play.game.actor.ShapeGraphics;
 import ch.epfl.cs107.play.math.BasicContactListener;
-import ch.epfl.cs107.play.math.Contact;
-import ch.epfl.cs107.play.math.ContactListener;
 import ch.epfl.cs107.play.math.PartBuilder;
 import ch.epfl.cs107.play.math.Polyline;
 import ch.epfl.cs107.play.math.Transform;
@@ -20,9 +18,8 @@ public class Finish extends GameEntity implements Actor {
 
 	private ImageGraphics graphics;
 	private BasicContactListener contactListener;
-	private boolean hit;
 
-	public Finish(ActorGame game, Vector position) {
+	public Finish(ActorGame game, Vector position) { 
 		super(game, true, position);
 		
         PartBuilder partBuilder = getEntity().createPartBuilder(); 
@@ -34,21 +31,9 @@ public class Finish extends GameEntity implements Actor {
         partBuilder.setGhost(true);
         partBuilder.build();
         
-        ContactListener listener = new ContactListener() {
-			@Override
-			public void beginContact(Contact contact) {
-				if (contact.getOther().isGhost()) {
-					System.out.println("oui");
-					return;
-				}
-			}
-
-			@Override
-			public void endContact(Contact contact) {
-			}
-		};
-		getEntity().addContactListener(listener);
-
+        contactListener = new BasicContactListener();
+        getEntity().addContactListener(contactListener);
+        
         graphics = new ImageGraphics("flag.red.png",2.0f, 2.0f);
         
         graphics.setParent(getEntity());

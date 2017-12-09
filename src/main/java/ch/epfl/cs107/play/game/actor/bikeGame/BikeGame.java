@@ -38,9 +38,6 @@ public class BikeGame extends ActorGame {
 	}
 	public void update(float deltaTime) {
 		super.update(deltaTime);
-		if(finish.isHit()) {
-			
-		}
 		deleteActor(bike);
 	}
 	

@@ -22,7 +22,6 @@ public class Wheel extends GameEntity implements Actor {
 	private ActorGame game ;
 	private WheelConstraint constraint;
 	private Entity vehicle;
-	private Part part;
 	
 	public Wheel(ActorGame game,boolean fixed, Vector position, float radius, String name) {
 		super(game, fixed, position);
@@ -31,7 +30,7 @@ public class Wheel extends GameEntity implements Actor {
 		Circle circle = new Circle (radius);
 		partBuilder.setShape(circle);
 		partBuilder.setFriction(10.0f);
-		part = partBuilder.build();
+		partBuilder.build();
 		graphics.setParent(getEntity());
 	}
 	
@@ -47,7 +46,7 @@ public class Wheel extends GameEntity implements Actor {
 		// axe le long duquel la roue peut se déplacer :
 		constraintBuilder.setAxis(axis);
 		// fréquence du ressort associé
-		constraintBuilder.setFrequency(1.0f);
+		constraintBuilder.setFrequency(3.0f);
 		constraintBuilder.setDamping(0.5f);
 		// force angulaire maximale pouvant être appliquée 
 		//à la roue pour la faire tourner :
@@ -73,9 +72,6 @@ public class Wheel extends GameEntity implements Actor {
 		return constraint.getMotorSpeed() ;
 	}
 	
-	public Part getPart() {
-		return part;
-	}
 	
 	
 	public void destroy() {
