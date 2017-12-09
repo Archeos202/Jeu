@@ -10,20 +10,11 @@ public abstract class GameEntity {
 	private Entity entity;
 
 	public GameEntity(ActorGame game, boolean fixed, Vector position) {
-		
-			try {
-				if (game == null) {
-					throw new NullPointerException("Il faut un jeu!");
-				} else if (position == null) {
-					throw new NullPointerException("Il faut une position!");
-				}
-			}
+		if (((game) == null) || (position == null)) {
 
-			catch (NullPointerException e) {
-				System.out.println(e.getMessage());
-				System.exit(0);
-			}
+			// NullPointerException; A VOIR VITE EXCEPTIONS
 
+		}
 		this.game = game;
 		entity = this.game.createEntity(entity, fixed, position);
 	}
