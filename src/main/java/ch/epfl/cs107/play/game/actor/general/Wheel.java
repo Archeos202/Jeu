@@ -8,6 +8,7 @@ import ch.epfl.cs107.play.game.actor.ShapeGraphics;
 import ch.epfl.cs107.play.math.Circle;
 import ch.epfl.cs107.play.math.ConstraintBuilder;
 import ch.epfl.cs107.play.math.Entity;
+import ch.epfl.cs107.play.math.Part;
 import ch.epfl.cs107.play.math.PartBuilder;
 import ch.epfl.cs107.play.math.Transform;
 import ch.epfl.cs107.play.math.Vector;
@@ -30,7 +31,6 @@ public class Wheel extends GameEntity implements Actor {
 		partBuilder.setShape(circle);
 		partBuilder.setFriction(10.0f);
 		partBuilder.build();
-		
 		graphics.setParent(getEntity());
 	}
 	
@@ -71,6 +71,8 @@ public class Wheel extends GameEntity implements Actor {
 	public float getSpeed() {
 		return constraint.getMotorSpeed() ;
 	}
+	
+	
 	
 	public void destroy() {
 		detach();

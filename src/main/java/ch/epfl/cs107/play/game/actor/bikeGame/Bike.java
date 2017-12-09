@@ -10,6 +10,8 @@ import ch.epfl.cs107.play.game.actor.ImageGraphics;
 import ch.epfl.cs107.play.game.actor.ShapeGraphics;
 import ch.epfl.cs107.play.game.actor.general.Wheel;
 import ch.epfl.cs107.play.math.Circle;
+import ch.epfl.cs107.play.math.Contact;
+import ch.epfl.cs107.play.math.ContactListener;
 import ch.epfl.cs107.play.math.PartBuilder;
 import ch.epfl.cs107.play.math.Polygon;
 import ch.epfl.cs107.play.math.Polyline;
@@ -29,6 +31,7 @@ public class Bike extends GameEntity implements Actor  {
 	private Wheel rightWheel;
 	private Wheel leftWheel;
 	private boolean regard;
+	private boolean hit;
 	private float MAX_WHEEL_SPEED;
 	
 	//MAX_WHEEL_SPEED et le boolean pour le regard
@@ -59,6 +62,22 @@ public class Bike extends GameEntity implements Actor  {
 		rightWheel = new Wheel(game, false, new Vector (5.0f, 5.0f),0.5f, "explosive.11.png");
         leftWheel.attach(getEntity(), new Vector(-1.0f, 0.0f), new Vector(-0.5f, -1.0f)); 
 		rightWheel.attach(getEntity(), new Vector(1.0f, 0.0f), new Vector(0.5f, -1.0f));
+		
+		ContactListener listener = new ContactListener() {
+			@Override 
+			public void beginContact(Contact contact) {
+				if (contact.getOther().isGhost()) 
+					return; 
+				//if (contact.getOther()==leftWheel.getEntity() ||
+						//contact.getOther() == rightWheel.getPartBuilder()
+						//)
+				return;
+				//hit = true; 
+				} 
+			@Override 
+			public void endContact(Contact contact) {} 
+				};
+		//addContactListener(listener);
 	}
 	
 	public void update(float deltaTime) {
