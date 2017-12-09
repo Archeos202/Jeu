@@ -68,16 +68,21 @@ public class Bike extends GameEntity implements Actor  {
 			public void beginContact(Contact contact) {
 				if (contact.getOther().isGhost()) 
 					return; 
-				//if (contact.getOther()==leftWheel.getEntity() ||
-						//contact.getOther() == rightWheel.getPartBuilder()
-						//)
-				return;
-				//hit = true; 
+				if (contact.getOther()==leftWheel.getPart() ||
+						contact.getOther() == rightWheel.getPart()
+						) {
+					System.out.println("roue");
+					return;
+				}
+				
+				hit = true; 
 				} 
 			@Override 
-			public void endContact(Contact contact) {} 
+			public void endContact(Contact contact) {
+				hit = false;
+			} 
 				};
-		//addContactListener(listener);
+		getEntity().addContactListener(listener);
 	}
 	
 	public void update(float deltaTime) {
@@ -183,6 +188,10 @@ public class Bike extends GameEntity implements Actor  {
 		else { 
 			return new Vector (-0.3f, 0.0f);
 		}
+	}
+	
+	public boolean getHit() {
+		return hit;
 	}
 	//supprimer des actors ???
 	@Override
