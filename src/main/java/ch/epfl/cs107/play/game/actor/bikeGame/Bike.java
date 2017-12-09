@@ -196,7 +196,9 @@ public class Bike extends GameEntity implements Actor  {
 	//supprimer des actors ???
 	@Override
 	public void destroy() {
-		getEntity().destroy();	
+		getEntity().destroy();
+		leftWheel.getEntity().destroy();
+		rightWheel.getEntity().destroy();
 	}
 	
 	@Override

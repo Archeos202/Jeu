@@ -1,11 +1,15 @@
 package ch.epfl.cs107.play.game.actor.bikeGame;
 
+import java.awt.Color;
+
 import ch.epfl.cs107.play.game.actor.ActorGame;
 import ch.epfl.cs107.play.game.actor.GameEntity;
+import ch.epfl.cs107.play.game.actor.TextGraphics;
 import ch.epfl.cs107.play.game.actor.crate.Crate;
 import ch.epfl.cs107.play.game.actor.general.Wheel;
 import ch.epfl.cs107.play.io.FileSystem;
 import ch.epfl.cs107.play.math.Entity;
+import ch.epfl.cs107.play.math.Transform;
 import ch.epfl.cs107.play.math.Vector;
 import ch.epfl.cs107.play.math.WheelConstraintBuilder;
 import ch.epfl.cs107.play.window.Window;
@@ -14,6 +18,9 @@ public class BikeGame extends ActorGame {
 
 	private Finish finish;
 	private Bike bike;
+	private TextGraphics message;
+	private boolean collision;
+	private boolean victoire;
 	
 	public boolean begin(Window window, FileSystem fileSystem) {
 		super.begin(window, fileSystem);
@@ -32,17 +39,35 @@ public class BikeGame extends ActorGame {
 		finish = new Finish(this, new Vector(15.0f, 3.0f));
 		addActor(finish);
 		
+		collision = false;
+		victoire = false;
+		message = new TextGraphics("", 0.3f, Color.RED, Color.WHITE, 0.02f, true, false, new Vector(0.5f, 0.5f), 1.0f, 100.0f);
+		message.setParent(getCanvas()); 
+		message.setRelativeTransform(Transform.I.translated(0.0f, -1.0f));
 		
 		return true;
 	}
 	public void update(float deltaTime) {
 		super.update(deltaTime);
-		if (finish.getHit()) {
-			System.out.println("finish");
-		}
 		if (bike.getHit()) {
-			System.out.println("ouch");
+			collision = true;
+			victoire = false;
 		}
+		if (collision) {
+			message.setText("sa fé tro mal");
+			message.draw(getCanvas());
+			bike.destroy();
+			deleteActor(bike);
+		}
+		if (finish.getHit()) {
+			victoire = true;
+		}
+		if (victoire){
+			message.setText("c gagner");
+			message.draw(getCanvas());
+		}
+		
+		
 	}
 	
 }

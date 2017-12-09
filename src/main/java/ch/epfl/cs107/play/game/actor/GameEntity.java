@@ -24,7 +24,7 @@ public abstract class GameEntity {
 		entity = this.game.createEntity(entity, fixed, Vector.ZERO);
 	}
 	
-	protected Entity getEntity() {
+	public Entity getEntity() {
 		return entity;
 	}
 	
