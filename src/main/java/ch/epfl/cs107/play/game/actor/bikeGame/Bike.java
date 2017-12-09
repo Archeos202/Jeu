@@ -37,7 +37,7 @@ public class Bike extends GameEntity implements Actor  {
 	//MAX_WHEEL_SPEED et le boolean pour le regard
 	// setviewcandidate ????
 	
-	public Bike(ActorGame game, Vector position) {	
+	public Bike(ActorGame game, Vector position) {
 		super(game, false, position);
 		PartBuilder partBuilder = getEntity().createPartBuilder(); 
         
@@ -146,6 +146,16 @@ public class Bike extends GameEntity implements Actor  {
         rightFootGraphics.setParent(getEntity());
 	}
 	
+	public void deleteGraphics() {
+		Circle circle = new Circle(0.0f);
+		headGraphics = new ShapeGraphics(circle,Color.WHITE, Color.WHITE, 0.0f);
+		armGraphics = new ShapeGraphics(circle,Color.WHITE, Color.WHITE, 0.0f);
+    	backGraphics = new ShapeGraphics(circle,Color.WHITE, Color.WHITE, 0.0f);
+    	thighGraphics = new ShapeGraphics(circle,Color.WHITE, Color.WHITE, 0.0f);
+    	leftFootGraphics = new ShapeGraphics(circle,Color.WHITE, Color.WHITE, 0.0f);
+    	rightFootGraphics = new ShapeGraphics(circle,Color.WHITE, Color.WHITE, 0.0f);
+    	graphics = new ShapeGraphics(circle, Color.ORANGE, Color.RED, 0.0f);
+	}
 	
 	
 	private Vector getHeadLocation() {
@@ -197,8 +207,9 @@ public class Bike extends GameEntity implements Actor  {
 	@Override
 	public void destroy() {
 		getEntity().destroy();
-		leftWheel.getEntity().destroy();
-		rightWheel.getEntity().destroy();
+		leftWheel.destroy();
+		rightWheel.destroy();
+		deleteGraphics();
 	}
 	
 	@Override

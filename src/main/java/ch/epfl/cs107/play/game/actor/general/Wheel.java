@@ -78,8 +78,9 @@ public class Wheel extends GameEntity implements Actor {
 	}
 	
 	public void destroy() {
-		detach();
-		getEntity().destroy();	
+		//detach();
+		getEntity().destroy();
+		graphics = new ImageGraphics("", 0, 0, new Vector(0.5f , 0.5f));
 	}
 	@Override
 	public Transform getTransform() {
