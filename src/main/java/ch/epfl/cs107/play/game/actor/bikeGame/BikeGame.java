@@ -3,6 +3,7 @@ package ch.epfl.cs107.play.game.actor.bikeGame;
 import java.awt.Color;
 import java.awt.event.KeyEvent;
 
+import com.sun.xml.internal.bind.v2.runtime.reflect.ListIterator;
 import ch.epfl.cs107.play.game.actor.Actor;
 import ch.epfl.cs107.play.game.actor.ActorGame;
 import ch.epfl.cs107.play.game.actor.GameEntity;
@@ -18,6 +19,7 @@ import ch.epfl.cs107.play.window.Window;
 
 public class BikeGame extends ActorGame {
 
+	
 	private Finish finish;
 	private Bike bike;
 	private TextGraphics message;
@@ -43,7 +45,7 @@ public class BikeGame extends ActorGame {
 		
 		collision = false;
 		victoire = false;
-		message = new TextGraphics("", 0.3f, Color.RED, Color.WHITE, 0.02f, true, false, new Vector(0.5f, 0.5f), 1.0f, 100.0f);
+		message = new TextGraphics("JOUJ", 0.3f, Color.RED, Color.WHITE, 0.02f, true, false, new Vector(0.5f, 0.5f), 1.0f, 100.0f);
 		message.setParent(getCanvas()); 
 		message.setRelativeTransform(Transform.I.translated(0.0f, -1.0f));
 		
@@ -55,6 +57,11 @@ public class BikeGame extends ActorGame {
 			collision = true;
 			victoire = false;
 		}
+		if (getKeyboard().get(KeyEvent.VK_R).isPressed()) {
+			this.end();
+			this.begin(getWindow(), getFileSystem());
+			}
+		
 		if (collision) {
 			message.setText("sa fé tro mal");
 			message.draw(getCanvas());
@@ -71,7 +78,7 @@ public class BikeGame extends ActorGame {
 		if (getKeyboard().get(KeyEvent.VK_R).isPressed()) {
 				this.end();
 				this.begin(getWindow(), getFileSystem());
-		}
+		} 
 		
 	}
 	
@@ -79,6 +86,7 @@ public class BikeGame extends ActorGame {
 		for (Actor actor : ActorList) {
 			actor.destroy();
 		}
+		
+		}
 	}
-}
 

@@ -37,7 +37,7 @@ public class Bike extends GameEntity implements Actor  {
 	//MAX_WHEEL_SPEED et le boolean pour le regard
 	// setviewcandidate ????
 	
-	public Bike(ActorGame game, Vector position) {	
+	public Bike(ActorGame game, Vector position) {
 		super(game, false, position);
 		PartBuilder partBuilder = getEntity().createPartBuilder(); 
         

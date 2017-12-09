@@ -39,10 +39,10 @@ public abstract class ActorGame implements Game {
 	public Canvas getCanvas() {
 		return window;
 	}
-
+	
 	public Window getWindow() {
-			return window;
-		}
+		return window;
+	}
 	
 	public FileSystem getFileSystem() {
 			return fileSystem;
