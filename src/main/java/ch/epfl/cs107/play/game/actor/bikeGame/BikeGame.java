@@ -79,7 +79,11 @@ public class BikeGame extends ActorGame {
 				this.end();
 				this.begin(getWindow(), getFileSystem());
 		} 
-		
+		for(int i = 0; i < ActorList.size(); i++) {
+			if(!((GameEntity)ActorList.get(i)).getEntity().isAlive()) {
+				deleteActor(ActorList.get(i));
+			}
+		}
 	}
 	
 	public void end() {
