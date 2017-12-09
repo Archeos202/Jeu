@@ -45,6 +45,7 @@ public class Finish extends GameEntity implements Actor {
         ContactListener listener = new ContactListener() {
 			@Override 
 			public void beginContact(Contact contact) {
+				if (contact.getOther().getCollisionGroup()==2) 
 				hit = true;
 				} 
 			@Override 

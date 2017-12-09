@@ -1,7 +1,9 @@
 package ch.epfl.cs107.play.game.actor.bikeGame;
 
 import java.awt.Color;
+import java.awt.event.KeyEvent;
 
+import ch.epfl.cs107.play.game.actor.Actor;
 import ch.epfl.cs107.play.game.actor.ActorGame;
 import ch.epfl.cs107.play.game.actor.GameEntity;
 import ch.epfl.cs107.play.game.actor.TextGraphics;
@@ -66,9 +68,17 @@ public class BikeGame extends ActorGame {
 			message.setText("c gagner");
 			message.draw(getCanvas());
 		}
-		
+		if (getKeyboard().get(KeyEvent.VK_R).isPressed()) {
+				this.end();
+				this.begin(getWindow(), getFileSystem());
+		}
 		
 	}
 	
+	public void end() {
+		for (Actor actor : ActorList) {
+			actor.destroy();
+		}
+	}
 }
 

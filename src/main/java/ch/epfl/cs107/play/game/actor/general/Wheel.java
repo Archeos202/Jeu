@@ -24,13 +24,14 @@ public class Wheel extends GameEntity implements Actor {
 	private Entity vehicle;
 	private Part part;
 	
-	public Wheel(ActorGame game,boolean fixed, Vector position, float radius, String name) {
+	public Wheel(ActorGame game,boolean fixed, Vector position, float radius, String name, int group) {
 		super(game, fixed, position);
 		graphics = new ImageGraphics(name, radius*2, radius*2, new Vector(0.5f , 0.5f));
 		PartBuilder partBuilder = getEntity().createPartBuilder();
 		Circle circle = new Circle (radius);
 		partBuilder.setShape(circle);
 		partBuilder.setFriction(10.0f);
+		partBuilder.setCollisionGroup(group);
 		part = partBuilder.build();
 		graphics.setParent(getEntity());
 	}
@@ -66,7 +67,7 @@ public class Wheel extends GameEntity implements Actor {
 	}
 	
 	public void detach() {
-		constraint = null;
+		//constraint = null;   C CLEREMANT PAS SA !!!
 	}
 	
 	public float getSpeed() {
@@ -79,7 +80,8 @@ public class Wheel extends GameEntity implements Actor {
 	
 	public void destroy() {
 		detach();
-		getEntity().destroy();	
+		getEntity().destroy();
+		graphics = new ImageGraphics("", 0, 0, new Vector(0.5f , 0.5f));
 	}
 	@Override
 	public Transform getTransform() {

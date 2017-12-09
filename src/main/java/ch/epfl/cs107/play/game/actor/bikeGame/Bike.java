@@ -48,6 +48,7 @@ public class Bike extends GameEntity implements Actor  {
         		new Vector(-0.5f, 1.0f) ); 
         partBuilder.setGhost(true);
         partBuilder.setShape(polygon);
+        partBuilder.setCollisionGroup(2);
         partBuilder.build();
 		
         MAX_WHEEL_SPEED = 20.0f;
@@ -58,8 +59,8 @@ public class Bike extends GameEntity implements Actor  {
     	graphics = new ShapeGraphics(polygon, Color.ORANGE, Color.RED, 0.1f);
         graphics.setParent(getEntity());
         
-        leftWheel = new Wheel(game, false, new Vector (3.0f, 5.0f),0.5f, "explosive.11.png");
-		rightWheel = new Wheel(game, false, new Vector (5.0f, 5.0f),0.5f, "explosive.11.png");
+        leftWheel = new Wheel(game, false, new Vector (3.0f, 5.0f),0.5f, "explosive.11.png", 1);
+		rightWheel = new Wheel(game, false, new Vector (5.0f, 5.0f),0.5f, "explosive.11.png", 1);
         leftWheel.attach(getEntity(), new Vector(-1.0f, 0.0f), new Vector(-0.5f, -1.0f)); 
 		rightWheel.attach(getEntity(), new Vector(1.0f, 0.0f), new Vector(0.5f, -1.0f));
 		
@@ -68,13 +69,10 @@ public class Bike extends GameEntity implements Actor  {
 			public void beginContact(Contact contact) {
 				if (contact.getOther().isGhost()) 
 					return; 
-				if (contact.getOther()==leftWheel.getPart() ||
-						contact.getOther() == rightWheel.getPart()
-						) {
+				if (contact.getOther().getCollisionGroup()==1) {
 					System.out.println("roue");
 					return;
 				}
-				
 				hit = true; 
 				} 
 			@Override 
@@ -146,7 +144,16 @@ public class Bike extends GameEntity implements Actor  {
         rightFootGraphics.setParent(getEntity());
 	}
 	
-	
+	public void deleteGraphics() {
+		Circle circle = new Circle(0.0f);
+		headGraphics = new ShapeGraphics(circle,Color.WHITE, Color.WHITE, 0.2f);
+		armGraphics = new ShapeGraphics(circle,Color.WHITE, Color.WHITE, 0.2f);
+		backGraphics = new ShapeGraphics(circle,Color.WHITE, Color.WHITE, 0.2f);
+		thighGraphics = new ShapeGraphics(circle,Color.WHITE, Color.WHITE, 0.2f);
+		leftFootGraphics = new ShapeGraphics(circle,Color.WHITE, Color.WHITE, 0.2f);
+		rightFootGraphics = new ShapeGraphics(circle,Color.WHITE, Color.WHITE, 0.2f);
+		graphics = new ShapeGraphics(circle, Color.ORANGE, Color.RED, 0.0f);
+	}
 	
 	private Vector getHeadLocation() {
 		return new Vector(0.0f, 1.75f);
@@ -197,8 +204,9 @@ public class Bike extends GameEntity implements Actor  {
 	@Override
 	public void destroy() {
 		getEntity().destroy();
-		leftWheel.getEntity().destroy();
-		rightWheel.getEntity().destroy();
+		leftWheel.destroy();
+		rightWheel.destroy();
+		deleteGraphics();
 	}
 	
 	@Override

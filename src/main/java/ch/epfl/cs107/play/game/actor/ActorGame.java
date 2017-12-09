@@ -40,10 +40,18 @@ public abstract class ActorGame implements Game {
 		return window;
 	}
 
+	public Window getWindow() {
+			return window;
+		}
+	
+	public FileSystem getFileSystem() {
+			return fileSystem;
+		}
+	
 	// Define cascading file system
 	FileSystem fileSystem = new FolderFileSystem(new ResourceFileSystem(DefaultFileSystem.INSTANCE));
 
-	ArrayList<Actor> ActorList = new ArrayList<Actor>();
+	protected ArrayList<Actor> ActorList = new ArrayList<Actor>();
 
 	public void addActor(Actor actor) {
 		ActorList.add(actor);
