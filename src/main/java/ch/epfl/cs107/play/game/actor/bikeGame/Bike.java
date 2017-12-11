@@ -35,6 +35,7 @@ public class Bike extends GameEntity implements Actor {
 	private boolean regard;
 	private boolean hit;
 	private float MAX_WHEEL_SPEED;
+	private boolean control; 
 
 	// MAX_WHEEL_SPEED et le boolean pour le regard
 	// setviewcandidate ????
@@ -56,10 +57,12 @@ public class Bike extends GameEntity implements Actor {
 		
         MAX_WHEEL_SPEED = 20.0f;
         regard = true;
+        control = true;
         
         BikerGraphics();
         
     	graphics = new ShapeGraphics(polygon, Color.ORANGE, Color.RED, 0.1f);
+    	graphics.setAlpha(0);
         graphics.setParent(getEntity());
         
         leftWheel = new Wheel(game, false, new Vector (-51.0f, 9.0f),0.5f, "explosive.11.png", 1);
@@ -88,34 +91,74 @@ public class Bike extends GameEntity implements Actor {
 	}
 
 	public void update(float deltaTime) {
-		if (getOwner().getKeyboard().get(KeyEvent.VK_SPACE).isPressed()) {
-			regard = !regard;
-			BikerGraphics();
-		}
+		if (!control) {
 		rightWheel.relax();
 		leftWheel.relax();
-		if (getOwner().getKeyboard().get(KeyEvent.VK_DOWN).isDown()) {
-			leftWheel.power(0.0f);
-			rightWheel.power(0.0f);
-		}
-		if ((regard) && (leftWheel.getSpeed() >= -MAX_WHEEL_SPEED)) {
-			if (getOwner().getKeyboard().get(KeyEvent.VK_UP).isDown()) {
+		if (leftWheel.getSpeed() >= -MAX_WHEEL_SPEED) {
+			if (getOwner().getKeyboard().get(KeyEvent.VK_RIGHT).isDown()) {
 				leftWheel.power(-MAX_WHEEL_SPEED);
+				if (getOwner().getKeyboard().get(KeyEvent.VK_RIGHT).isPressed()) {
+					regard = true;
+					BikerGraphics();
+				}
 			}
 		}
-		if ((!regard) && (rightWheel.getSpeed() <= MAX_WHEEL_SPEED)) {
-			if (getOwner().getKeyboard().get(KeyEvent.VK_UP).isDown()) {
+		if ((rightWheel.getSpeed() <= MAX_WHEEL_SPEED)) {
+			if (getOwner().getKeyboard().get(KeyEvent.VK_LEFT).isDown()) {
 				rightWheel.power(MAX_WHEEL_SPEED);
 			}
+			if (getOwner().getKeyboard().get(KeyEvent.VK_LEFT).isPressed()) {
+				regard = false;
+				BikerGraphics();
+			}
 		}
-		if (getOwner().getKeyboard().get(KeyEvent.VK_LEFT).isDown()) {
+		if (getOwner().getKeyboard().get(KeyEvent.VK_DOWN).isDown()) {
+			if (!regard)
 			getEntity().applyAngularForce(30.0f);
-		}
-		if (getOwner().getKeyboard().get(KeyEvent.VK_RIGHT).isDown()) {
+			if (regard)
 			getEntity().applyAngularForce(-30.0f);
 		}
+		if (getOwner().getKeyboard().get(KeyEvent.VK_UP).isDown()) {
+			if (!regard)
+			getEntity().applyAngularForce(-30.0f);
+			if (regard)
+			getEntity().applyAngularForce(30.0f);
+		}
+		}
+		if (control) {
+			if (getOwner().getKeyboard().get(KeyEvent.VK_SPACE).isPressed()) {
+				regard = !regard;
+				BikerGraphics();
+			}
+			rightWheel.relax();
+			leftWheel.relax();
+			if (getOwner().getKeyboard().get(KeyEvent.VK_DOWN).isDown()) {
+				leftWheel.power(0.0f);
+				rightWheel.power(0.0f);
+			}
+			if ((regard) && (leftWheel.getSpeed() >= -MAX_WHEEL_SPEED)) {
+				if (getOwner().getKeyboard().get(KeyEvent.VK_UP).isDown()) {
+					leftWheel.power(-MAX_WHEEL_SPEED);
+				}
+			}
+			if ((!regard) && (rightWheel.getSpeed() <= MAX_WHEEL_SPEED)) {
+				if (getOwner().getKeyboard().get(KeyEvent.VK_UP).isDown()) {
+					rightWheel.power(MAX_WHEEL_SPEED);
+				}
+			}
+			if (getOwner().getKeyboard().get(KeyEvent.VK_LEFT).isDown()) {
+				getEntity().applyAngularForce(30.0f);
+			}
+			if (getOwner().getKeyboard().get(KeyEvent.VK_RIGHT).isDown()) {
+				getEntity().applyAngularForce(-30.0f);
+		}
+		}
+		if (getOwner().getKeyboard().get(KeyEvent.VK_SHIFT).isPressed() && (leftWheel.getGround() || rightWheel.getGround())) {
+			getEntity().applyImpulse(new Vector(0.0f, 10.0f), null);
+		}
 		pedal(deltaTime);
-
+		leftWheel.update(deltaTime);
+		rightWheel.update(deltaTime);
 	}
 
 	private void BikerGraphics() {
@@ -266,6 +309,18 @@ public class Bike extends GameEntity implements Actor {
 
 	public boolean getHit() {
 		return hit;
+	}
+	
+	public void setControlOne() {
+		this.control = true;
+	}
+
+	public void setControlTwo() {
+		this.control = false;
+	}
+	
+	public boolean getControl() {
+		return control;
 	}
 
 	// supprimer des actors ???
