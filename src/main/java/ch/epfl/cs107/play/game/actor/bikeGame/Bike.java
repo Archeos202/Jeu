@@ -59,8 +59,8 @@ public class Bike extends GameEntity implements Actor  {
     	graphics = new ShapeGraphics(polygon, Color.ORANGE, Color.RED, 0.1f);
         graphics.setParent(getEntity());
         
-        leftWheel = new Wheel(game, false, new Vector (3.0f, 5.0f),0.5f, "explosive.11.png", 1);
-		rightWheel = new Wheel(game, false, new Vector (5.0f, 5.0f),0.5f, "explosive.11.png", 1);
+        leftWheel = new Wheel(game, false, new Vector (-51.0f, 9.0f),0.5f, "explosive.11.png", 1);
+		rightWheel = new Wheel(game, false, new Vector (-49.0f, 9.0f),0.5f, "explosive.11.png", 1);
         leftWheel.attach(getEntity(), new Vector(-1.0f, 0.0f), new Vector(-0.5f, -1.0f)); 
 		rightWheel.attach(getEntity(), new Vector(1.0f, 0.0f), new Vector(0.5f, -1.0f));
 		
