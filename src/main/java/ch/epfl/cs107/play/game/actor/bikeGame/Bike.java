@@ -21,7 +21,6 @@ import ch.epfl.cs107.play.math.Vector;
 import ch.epfl.cs107.play.window.Canvas;
 
 public class Bike extends GameEntity implements Actor {
-	private ShapeGraphics graphics;
 	private ShapeGraphics headGraphics;
 	private ShapeGraphics leftArmGraphics;
 	private ShapeGraphics rightArmGraphics;
@@ -58,9 +57,6 @@ public class Bike extends GameEntity implements Actor {
         regard = true;
         
         BikerGraphics();
-        
-    	graphics = new ShapeGraphics(polygon, Color.ORANGE, Color.RED, 0.1f);
-        graphics.setParent(getEntity());
         
         leftWheel = new Wheel(game, false, new Vector (-51.0f, 9.0f),0.5f, "explosive.11.png", 1);
 		rightWheel = new Wheel(game, false, new Vector (-49.0f, 9.0f),0.5f, "explosive.11.png", 1);
@@ -115,7 +111,6 @@ public class Bike extends GameEntity implements Actor {
 			getEntity().applyAngularForce(-30.0f);
 		}
 		pedal(deltaTime);
-
 	}
 
 	private void BikerGraphics() {
@@ -123,28 +118,16 @@ public class Bike extends GameEntity implements Actor {
 		Polyline leftArm = new Polyline(getShoulderLocation(), getLeftHandLocation());
 		Polyline rightArm = new Polyline(getShoulderLocation(), getRightHandLocation());
 		Polyline back = new Polyline(getShoulderLocation(), getBottomLocation());
-		Polyline leftThigh = new Polyline(getBottomLocation(), getLeftKneeLocation());
-		Polyline rightThigh = new Polyline(getBottomLocation(), getRightKneeLocation());
-		Polyline leftFoot = new Polyline(getLeftKneeLocation(), getLeftFootLocation());
-		Polyline rightFoot = new Polyline(getRightKneeLocation(), getRightFootLocation());
 
 		headGraphics = new ShapeGraphics(head, Color.WHITE, Color.WHITE, 0.15f);
 		leftArmGraphics = new ShapeGraphics(leftArm, Color.WHITE, Color.WHITE, 0.15f);
 		rightArmGraphics = new ShapeGraphics(rightArm, Color.WHITE, Color.WHITE, 0.15f);
 		backGraphics = new ShapeGraphics(back, Color.WHITE, Color.WHITE, 0.15f);
-		leftThighGraphics = new ShapeGraphics(leftThigh, Color.BLUE, Color.BLUE, 0.15f);
-		rightThighGraphics = new ShapeGraphics(rightThigh, Color.RED, Color.RED, 0.15f);
-		leftFootGraphics = new ShapeGraphics(leftFoot, Color.BLUE, Color.BLUE, 0.15f);
-		rightFootGraphics = new ShapeGraphics(rightFoot, Color.RED, Color.RED, 0.15f);
 
 		headGraphics.setParent(getEntity());
 		leftArmGraphics.setParent(getEntity());
 		rightArmGraphics.setParent(getEntity());
 		backGraphics.setParent(getEntity());
-		leftThighGraphics.setParent(getEntity());
-		rightThighGraphics.setParent(getEntity());
-		leftFootGraphics.setParent(getEntity());
-		rightFootGraphics.setParent(getEntity());
 	}
 
 	public void deleteGraphics() {
@@ -153,11 +136,6 @@ public class Bike extends GameEntity implements Actor {
 		leftArmGraphics = new ShapeGraphics(circle, Color.WHITE, Color.WHITE, 0.2f);
 		rightArmGraphics = new ShapeGraphics(circle, Color.WHITE, Color.WHITE, 0.2f);
 		backGraphics = new ShapeGraphics(circle, Color.WHITE, Color.WHITE, 0.2f);
-		leftThighGraphics = new ShapeGraphics(circle, Color.WHITE, Color.WHITE, 0.2f);
-		rightThighGraphics = new ShapeGraphics(circle, Color.WHITE, Color.WHITE, 0.2f);
-		leftFootGraphics = new ShapeGraphics(circle, Color.WHITE, Color.WHITE, 0.2f);
-		rightFootGraphics = new ShapeGraphics(circle, Color.WHITE, Color.WHITE, 0.2f);
-		graphics = new ShapeGraphics(circle, Color.ORANGE, Color.RED, 0.0f);
 	}
 
 	private Vector getHeadLocation() {
@@ -200,14 +178,6 @@ public class Bike extends GameEntity implements Actor {
 		}
 	}
 
-	private Vector getLeftKneeLocation() {
-		return new Vector(0.0f, 0.6f);
-	}
-
-	private Vector getRightKneeLocation() {
-		return new Vector(0.0f, 0.6f);
-	}
-
 	private Vector getUpdateLeftKneeLocation(float deltaTime) {
 		if (regard) {
 			return new Vector(0.2f * ((float) Math.sin((double) leftWheel.getEntity().getAngularPosition())),
@@ -225,22 +195,6 @@ public class Bike extends GameEntity implements Actor {
 		} else {
 			return new Vector(-0.2f * (-((float) Math.sin((double) rightWheel.getEntity().getAngularPosition()))),
 					0.6f + (0.2f * (-((float) Math.sin((double) rightWheel.getEntity().getAngularPosition())))));
-		}
-	}
-
-	private Vector getLeftFootLocation() {
-		if (regard) {
-			return new Vector(-0.3f, 0.0f);
-		} else {
-			return new Vector(0.3f, 0.0f);
-		}
-	}
-
-	private Vector getRightFootLocation() {
-		if (regard) {
-			return new Vector(0.3f, 0.0f);
-		} else {
-			return new Vector(-0.3f, 0.0f);
 		}
 	}
 
@@ -289,7 +243,6 @@ public class Bike extends GameEntity implements Actor {
 
 	@Override
 	public void draw(Canvas canvas) {
-		graphics.draw(canvas);
 		headGraphics.draw(canvas);
 		leftArmGraphics.draw(canvas);
 		rightArmGraphics.draw(canvas);
@@ -316,12 +269,12 @@ public class Bike extends GameEntity implements Actor {
 		Polyline rightFoot = new Polyline(getUpdateRightKneeLocation(deltaTime), getUpdateRightFootLocation(deltaTime));
 		Polyline leftThigh = new Polyline(getBottomLocation(), getUpdateLeftKneeLocation(deltaTime));
 		Polyline rightThigh = new Polyline(getBottomLocation(), getUpdateRightKneeLocation(deltaTime));
-		leftThighGraphics = new ShapeGraphics(leftThigh, Color.BLUE, Color.BLUE, 0.15f);
-		rightThighGraphics = new ShapeGraphics(rightThigh, Color.RED, Color.RED, 0.15f);
+		leftThighGraphics = new ShapeGraphics(leftThigh, Color.WHITE, Color.WHITE, 0.15f);
+		rightThighGraphics = new ShapeGraphics(rightThigh, Color.WHITE, Color.WHITE, 0.15f);
 		leftThighGraphics.setParent(getEntity());
 		rightThighGraphics.setParent(getEntity());
-		leftFootGraphics = new ShapeGraphics(leftFoot, Color.BLUE, Color.BLUE, 0.15f);
-		rightFootGraphics = new ShapeGraphics(rightFoot, Color.RED, Color.RED, 0.15f);
+		leftFootGraphics = new ShapeGraphics(leftFoot, Color.WHITE, Color.WHITE, 0.15f);
+		rightFootGraphics = new ShapeGraphics(rightFoot, Color.WHITE, Color.WHITE, 0.15f);
 		leftFootGraphics.setParent(getEntity());
 		rightFootGraphics.setParent(getEntity());
 
