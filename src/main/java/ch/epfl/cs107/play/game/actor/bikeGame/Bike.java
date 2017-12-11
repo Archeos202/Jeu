@@ -41,26 +41,30 @@ public class Bike extends GameEntity implements Actor {
 
 	public Bike(ActorGame game, Vector position) {
 		super(game, false, position);
-		PartBuilder partBuilder = getEntity().createPartBuilder();
 
-		Polygon polygon = new Polygon(new Vector(0.0f, 0.5f), new Vector(0.5f, 1.0f), new Vector(0.0f, 2.0f),
-				new Vector(-0.5f, 1.0f));
-		partBuilder.setGhost(true);
-		partBuilder.setShape(polygon);
-		partBuilder.setCollisionGroup(2);
-		partBuilder.build();
-
-		MAX_WHEEL_SPEED = 20.0f;
-		regard = true;
-
-		BikerGraphics();
-
-		graphics = new ShapeGraphics(polygon, Color.ORANGE, Color.RED, 0.1f);
-		graphics.setParent(getEntity());
-
-		leftWheel = new Wheel(game, false, new Vector(3.0f, 5.0f), 0.5f, "explosive.11.png", 1);
-		rightWheel = new Wheel(game, false, new Vector(5.0f, 5.0f), 0.5f, "explosive.11.png", 1);
-		leftWheel.attach(getEntity(), new Vector(-1.0f, 0.0f), new Vector(-0.5f, -1.0f));
+		PartBuilder partBuilder = getEntity().createPartBuilder(); 
+        
+        Polygon polygon = new Polygon(
+        		new Vector(0.0f, 0.5f),
+        		new Vector(0.5f, 1.0f),
+        		new Vector(0.0f, 2.0f),
+        		new Vector(-0.5f, 1.0f) ); 
+        partBuilder.setGhost(true);
+        partBuilder.setShape(polygon);
+        partBuilder.setCollisionGroup(2);
+        partBuilder.build();
+		
+        MAX_WHEEL_SPEED = 20.0f;
+        regard = true;
+        
+        BikerGraphics();
+        
+    	graphics = new ShapeGraphics(polygon, Color.ORANGE, Color.RED, 0.1f);
+        graphics.setParent(getEntity());
+        
+        leftWheel = new Wheel(game, false, new Vector (-51.0f, 9.0f),0.5f, "explosive.11.png", 1);
+		rightWheel = new Wheel(game, false, new Vector (-49.0f, 9.0f),0.5f, "explosive.11.png", 1);
+        leftWheel.attach(getEntity(), new Vector(-1.0f, 0.0f), new Vector(-0.5f, -1.0f)); 
 		rightWheel.attach(getEntity(), new Vector(1.0f, 0.0f), new Vector(0.5f, -1.0f));
 
 		ContactListener listener = new ContactListener() {
