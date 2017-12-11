@@ -64,9 +64,9 @@ public class Wheel extends GameEntity implements Actor {
 	ContactListener listener = new ContactListener() {
 		@Override
 		public void beginContact(Contact contact) {
-			if (contact.getOther().getCollisionGroup() == 3) {
+			if (contact.getOther().isGhost())
+				return;
 				ground = true;
-			}
 		}
 
 		@Override

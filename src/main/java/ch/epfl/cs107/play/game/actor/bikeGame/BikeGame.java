@@ -53,7 +53,7 @@ public class BikeGame extends ActorGame {
 		addActor(bouton);
 		bouton2 = new BoutonCrate(this, true,new Vector(90.0f, 0.0f), 1, 1,"button.red.png");
 		addActor(bouton2);
-		bike = new Bike(this, new Vector(-50.0f, 10.0f));
+		bike = new Bike(this, new Vector(-50.0f, 5.0f));
 		addActor(bike);
 		setViewCandidate(bike);
 
