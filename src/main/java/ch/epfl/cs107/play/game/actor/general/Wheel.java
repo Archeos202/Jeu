@@ -7,6 +7,8 @@ import ch.epfl.cs107.play.game.actor.ImageGraphics;
 import ch.epfl.cs107.play.game.actor.ShapeGraphics;
 import ch.epfl.cs107.play.math.Circle;
 import ch.epfl.cs107.play.math.ConstraintBuilder;
+import ch.epfl.cs107.play.math.Contact;
+import ch.epfl.cs107.play.math.ContactListener;
 import ch.epfl.cs107.play.math.Entity;
 import ch.epfl.cs107.play.math.Part;
 import ch.epfl.cs107.play.math.PartBuilder;
@@ -23,6 +25,7 @@ public class Wheel extends GameEntity implements Actor {
 	private WheelConstraint constraint;
 	private Entity vehicle;
 	private Part part;
+	private boolean ground;
 	
 	public Wheel(ActorGame game,boolean fixed, Vector position, float radius, String name, int group) {
 		super(game, fixed, position);
@@ -56,7 +59,28 @@ public class Wheel extends GameEntity implements Actor {
 		constraint = constraintBuilder.build();
 		this.vehicle = vehicle;
 	}
+	
+	public void update(float deltaTime) {
+	ContactListener listener = new ContactListener() {
+		@Override
+		public void beginContact(Contact contact) {
+			if (contact.getOther().getCollisionGroup() == 3) {
+				ground = true;
+			}
+		}
 
+		@Override
+		public void endContact(Contact contact) {
+			ground = false;
+		}
+	};
+	getEntity().addContactListener(listener);
+	}
+
+	public boolean getGround() {
+		return ground;
+	}
+	
 	public void power(float speed) {
 		constraint.setMotorEnabled(true);
 		constraint.setMotorSpeed(speed);

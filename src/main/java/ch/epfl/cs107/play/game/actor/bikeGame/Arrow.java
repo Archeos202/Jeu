@@ -38,7 +38,7 @@ public class Arrow extends GameEntity implements Actor {
 	
 	public void update(float deltaTime) {
 		if (getOwner().getKeyboard().get(KeyEvent.VK_UP).isPressed() && arc) {
-			getEntity().applyImpulse(new Vector(15.0f, 0.0f), null);
+			getEntity().applyImpulse(new Vector(20.0f, 0.0f), null);
 			arc = false;
 		}
 	}

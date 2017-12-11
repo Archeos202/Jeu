@@ -99,7 +99,6 @@ public class BikeGame extends ActorGame {
 			message.setText("c gagner");
 			message.draw(getCanvas());
 			bike.victoryArms();
-
 		}
 		if (bouton.getHit()) {
 			deleteActor(bouton);
@@ -144,6 +143,16 @@ public class BikeGame extends ActorGame {
 			boutonhit2 = false;
 			
 		}
+		if (getKeyboard().get(KeyEvent.VK_C).isPressed()) {
+			if (bike.getControl()) {
+				bike.setControlTwo();
+				System.out.print("hello");
+			}
+			else if (!bike.getControl()) {
+				bike.setControlOne();
+			}
+		}
+		
 		if (getKeyboard().get(KeyEvent.VK_R).isPressed()) {
 				this.end();
 				this.begin(getWindow(), getFileSystem());
