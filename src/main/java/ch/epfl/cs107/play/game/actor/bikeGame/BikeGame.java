@@ -136,7 +136,7 @@ public class BikeGame extends ActorGame {
 		}
 			
 		if (boutonhit2) {
-			Crate crate1 = new Crate(this , false, new Vector(85.0f ,3.0f), 10, 10, "duck.png");
+            Crate crate1 = new Crate(this , false, new Vector(85.0f ,3.0f), 10, 10, "duck.png");
 			addActor(crate1);
 			GhostCrate bouton2 = new GhostCrate(this, true, new Vector(90.0f, 0.0f), 1, 1,"button.red.pressed.png");
 			addActor(bouton2);
