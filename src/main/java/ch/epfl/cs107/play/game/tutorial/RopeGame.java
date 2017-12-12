@@ -42,11 +42,13 @@ public class RopeGame implements Game {
 
         this.window = window;
         
+        // On crée l'entité "block".
         EntityBuilder entityBuilder = world.createEntityBuilder();
         entityBuilder.setFixed(true);
         entityBuilder.setPosition(new Vector(1.0f, 0.5f));
         block = entityBuilder.build();
         
+        // Puis la forme physique.
         PartBuilder partBuilder = block.createPartBuilder(); 
          
         Polygon polygon = new Polygon(
@@ -69,6 +71,7 @@ public class RopeGame implements Game {
         partBuilder2.setShape(circle);
         partBuilder2.build();
         
+        // Et les représentations graphiques.
         blockGraphics = new ImageGraphics("box.4.png", 1f, 1f);
         blockGraphics.setAlpha(1.0f);
         blockGraphics.setDepth(0.0f);
@@ -79,6 +82,7 @@ public class RopeGame implements Game {
         ballGraphics.setDepth(0.0f);
         ballGraphics.setParent(ball);
        
+        // On lie la balle et le bloc avec une contrainte de corde.
         RopeConstraintBuilder ropeConstraintBuilder = 
         		world.createRopeConstraintBuilder(); 
         ropeConstraintBuilder.setFirstEntity(block); 
@@ -97,9 +101,6 @@ public class RopeGame implements Game {
     // This event is called at each frame
     @Override
     public void update(float deltaTime) {
-       
-        // Game logic comes here
-    	//nothing to do, yet
     	
     	// Simulate physics
         // Our body is fixed , though , nothing will move

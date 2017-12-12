@@ -17,7 +17,6 @@ public class BikeGame extends ActorGame {
 
 	private Finish finish;
 	private Bike bike;
-	private Banana banana;
 	private BoutonCrate bouton;
 	private BoutonCrate bouton2;
 	private TextGraphics message;
