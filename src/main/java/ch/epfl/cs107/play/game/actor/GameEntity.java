@@ -1,7 +1,6 @@
 package ch.epfl.cs107.play.game.actor;
 
 import ch.epfl.cs107.play.math.Entity;
-import ch.epfl.cs107.play.math.EntityBuilder;
 import ch.epfl.cs107.play.math.Vector;
 
 public abstract class GameEntity {

@@ -6,7 +6,6 @@ import java.awt.event.KeyEvent;
 import ch.epfl.cs107.play.game.actor.Actor;
 import ch.epfl.cs107.play.game.actor.ActorGame;
 import ch.epfl.cs107.play.game.actor.GameEntity;
-import ch.epfl.cs107.play.game.actor.ImageGraphics;
 import ch.epfl.cs107.play.game.actor.ShapeGraphics;
 import ch.epfl.cs107.play.game.actor.general.Wheel;
 import ch.epfl.cs107.play.math.Circle;
@@ -15,12 +14,13 @@ import ch.epfl.cs107.play.math.ContactListener;
 import ch.epfl.cs107.play.math.PartBuilder;
 import ch.epfl.cs107.play.math.Polygon;
 import ch.epfl.cs107.play.math.Polyline;
-import ch.epfl.cs107.play.math.Shape;
 import ch.epfl.cs107.play.math.Transform;
 import ch.epfl.cs107.play.math.Vector;
 import ch.epfl.cs107.play.window.Canvas;
 
 public class Bike extends GameEntity implements Actor {
+	// attribut des graphics du cicliste (celui de la hitbox est conservé en cas
+	// d'utilisation eventuelle plus tard)
 	private ShapeGraphics graphics;
 	private ShapeGraphics headGraphics;
 	private ShapeGraphics leftArmGraphics;
@@ -30,59 +30,63 @@ public class Bike extends GameEntity implements Actor {
 	private ShapeGraphics rightThighGraphics;
 	private ShapeGraphics leftFootGraphics;
 	private ShapeGraphics rightFootGraphics;
+	// attribut des deuw roues attachées
 	private Wheel rightWheel;
 	private Wheel leftWheel;
-	private boolean regard;
+	// indique vers ou le cycliste regarde (true = droite)
+	private boolean look;
+	// indique si le cycliste est touché
 	private boolean hit;
 	private float MAX_WHEEL_SPEED;
-	private boolean control; 
-
-	// MAX_WHEEL_SPEED et le boolean pour le regard
-	// setviewcandidate ????
+	// indique quel type de controle est utilisé (true = celui de base)
+	private boolean control;
 
 	public Bike(ActorGame game, Vector position) {
 		super(game, false, position);
+		PartBuilder partBuilder = getEntity().createPartBuilder();
+		Polygon polygon = new Polygon(new Vector(0.0f, 0.5f), new Vector(0.5f, 1.0f), new Vector(0.0f, 2.0f),
+				new Vector(-0.5f, 1.0f));
+		// la hitbox est bien sur un ghost
+		partBuilder.setGhost(true);
+		partBuilder.setShape(polygon);
+		// cela permettra au drapeau de détecter la hitbox
+		partBuilder.setCollisionGroup(2);
+		partBuilder.build();
 
-		PartBuilder partBuilder = getEntity().createPartBuilder(); 
-        
-        Polygon polygon = new Polygon(
-        		new Vector(0.0f, 0.5f),
-        		new Vector(0.5f, 1.0f),
-        		new Vector(0.0f, 2.0f),
-        		new Vector(-0.5f, 1.0f) ); 
-        partBuilder.setGhost(true);
-        partBuilder.setShape(polygon);
-        partBuilder.setCollisionGroup(2);
-        partBuilder.build();
-		
-        MAX_WHEEL_SPEED = 20.0f;
-        regard = true;
-        control = true;
-        
-        BikerGraphics();
+		// on initialise la vitesse moteur max ainsi que les controles et le regard
+		MAX_WHEEL_SPEED = 20.0f;
+		look = true;
+		control = true;
 
-    	graphics = new ShapeGraphics(polygon, Color.ORANGE, Color.RED, 0.1f);
-    	graphics.setAlpha(0);
-        graphics.setParent(getEntity());
-        
-        leftWheel = new Wheel(game, false, new Vector (-51.0f, 9.0f),0.5f, "explosive.11.png", 1);
-		rightWheel = new Wheel(game, false, new Vector (-49.0f, 9.0f),0.5f, "explosive.11.png", 1);
-        leftWheel.attach(getEntity(), new Vector(-1.0f, 0.0f), new Vector(-0.5f, -1.0f)); 
+		// on crée les graphics du cycliste
+		BikerGraphics();
+
+		graphics = new ShapeGraphics(polygon, Color.ORANGE, Color.RED, 0.1f);
+		// on ne souhaite pas voir la hitbox, on la rend donc transparente
+		graphics.setAlpha(0);
+		graphics.setParent(getEntity());
+
+		// On crée les deux roues du velo et les attaches
+		leftWheel = new Wheel(game, false, new Vector(-51.0f, 3.0f), 0.5f, "explosive.11.png");
+		rightWheel = new Wheel(game, false, new Vector(-49.0f, 3.0f), 0.5f, "explosive.11.png");
+		leftWheel.attach(getEntity(), new Vector(-1.0f, 0.0f), new Vector(-0.5f, -1.0f));
 		rightWheel.attach(getEntity(), new Vector(1.0f, 0.0f), new Vector(0.5f, -1.0f));
 
 		ContactListener listener = new ContactListener() {
 			@Override
+			// On signale que le cycliste est touché si ce qui l'a touché ni ni une roue ni
+			// un ghost
 			public void beginContact(Contact contact) {
 				if (contact.getOther().isGhost())
 					return;
 				if (contact.getOther().getCollisionGroup() == 1) {
-					System.out.println("roue");
 					return;
 				}
 				hit = true;
 			}
 
 			@Override
+			// On signale que le contact est fini
 			public void endContact(Contact contact) {
 				hit = false;
 			}
@@ -91,57 +95,25 @@ public class Bike extends GameEntity implements Actor {
 	}
 
 	public void update(float deltaTime) {
-		if (!control) {
 		rightWheel.relax();
 		leftWheel.relax();
-		if (leftWheel.getSpeed() >= -MAX_WHEEL_SPEED) {
-			if (getOwner().getKeyboard().get(KeyEvent.VK_RIGHT).isDown()) {
-				leftWheel.power(-MAX_WHEEL_SPEED);
-				if (getOwner().getKeyboard().get(KeyEvent.VK_RIGHT).isPressed()) {
-					regard = true;
-					BikerGraphics();
-				}
-			}
-		}
-		if ((rightWheel.getSpeed() <= MAX_WHEEL_SPEED)) {
-			if (getOwner().getKeyboard().get(KeyEvent.VK_LEFT).isDown()) {
-				rightWheel.power(MAX_WHEEL_SPEED);
-			}
-			if (getOwner().getKeyboard().get(KeyEvent.VK_LEFT).isPressed()) {
-				regard = false;
-				BikerGraphics();
-			}
-		}
-		if (getOwner().getKeyboard().get(KeyEvent.VK_DOWN).isDown()) {
-			if (!regard)
-			getEntity().applyAngularForce(30.0f);
-			if (regard)
-			getEntity().applyAngularForce(-30.0f);
-		}
-		if (getOwner().getKeyboard().get(KeyEvent.VK_UP).isDown()) {
-			if (!regard)
-			getEntity().applyAngularForce(-30.0f);
-			if (regard)
-			getEntity().applyAngularForce(30.0f);
-		}
-		}
+		// verifie quels controles sont actifs et les appliquent
 		if (control) {
+			//les controles classiques
 			if (getOwner().getKeyboard().get(KeyEvent.VK_SPACE).isPressed()) {
-				regard = !regard;
+				look = !look;
 				BikerGraphics();
 			}
-			rightWheel.relax();
-			leftWheel.relax();
 			if (getOwner().getKeyboard().get(KeyEvent.VK_DOWN).isDown()) {
 				leftWheel.power(0.0f);
 				rightWheel.power(0.0f);
 			}
-			if ((regard) && (leftWheel.getSpeed() >= -MAX_WHEEL_SPEED)) {
+			if ((look) && (leftWheel.getSpeed() >= -MAX_WHEEL_SPEED)) {
 				if (getOwner().getKeyboard().get(KeyEvent.VK_UP).isDown()) {
 					leftWheel.power(-MAX_WHEEL_SPEED);
 				}
 			}
-			if ((!regard) && (rightWheel.getSpeed() <= MAX_WHEEL_SPEED)) {
+			if ((!look) && (rightWheel.getSpeed() <= MAX_WHEEL_SPEED)) {
 				if (getOwner().getKeyboard().get(KeyEvent.VK_UP).isDown()) {
 					rightWheel.power(MAX_WHEEL_SPEED);
 				}
@@ -151,17 +123,58 @@ public class Bike extends GameEntity implements Actor {
 			}
 			if (getOwner().getKeyboard().get(KeyEvent.VK_RIGHT).isDown()) {
 				getEntity().applyAngularForce(-30.0f);
+			}
 		}
+		if (!control) {
+			//les controles "alternatifs"
+			if (leftWheel.getSpeed() >= -MAX_WHEEL_SPEED) {
+				if (getOwner().getKeyboard().get(KeyEvent.VK_RIGHT).isDown()) {
+					leftWheel.power(-MAX_WHEEL_SPEED);
+					// on signifie que le regard change et on ne redessine le cycliste qu'une fois par appuie
+				}
+				if (getOwner().getKeyboard().get(KeyEvent.VK_RIGHT).isPressed()) {
+					look = true;
+					BikerGraphics();
+				}	
+			}
+			if ((rightWheel.getSpeed() <= MAX_WHEEL_SPEED)) {
+				if (getOwner().getKeyboard().get(KeyEvent.VK_LEFT).isDown()) {
+					rightWheel.power(MAX_WHEEL_SPEED);
+				}
+				if (getOwner().getKeyboard().get(KeyEvent.VK_LEFT).isPressed()) {
+					look = false;
+					BikerGraphics();
+				}
+			}
+			//les roues se levent en fonction de l'orientation du cycliste
+			if (getOwner().getKeyboard().get(KeyEvent.VK_DOWN).isDown()) {
+				if (!look)
+					getEntity().applyAngularForce(30.0f);
+				if (look)
+					getEntity().applyAngularForce(-30.0f);
+			}
+			if (getOwner().getKeyboard().get(KeyEvent.VK_UP).isDown()) {
+				if (!look)
+					getEntity().applyAngularForce(-30.0f);
+				if (look)
+					getEntity().applyAngularForce(30.0f);
+			}
 		}
-		if (getOwner().getKeyboard().get(KeyEvent.VK_SHIFT).isPressed() && (leftWheel.getGround() || rightWheel.getGround())) {
-			getEntity().applyImpulse(new Vector(0.0f, 10.0f), null);
+		//la commande de saut commune
+		//On verifient que les roue touche un non-ghost et on fait sauter le velo
+		if (getOwner().getKeyboard().get(KeyEvent.VK_SHIFT).isPressed()
+				&& (leftWheel.getGround() || rightWheel.getGround())) {
+			getEntity().applyImpulse(new Vector(0, 3), null);
+			leftWheel.getEntity().applyImpulse(new Vector(0, 3), null);
+			rightWheel.getEntity().applyImpulse(new Vector(0, 3), null);
 		}
 		pedal(deltaTime);
-
+		
 		leftWheel.update(deltaTime);
 		rightWheel.update(deltaTime);
 	}
 
+	//methode permettant de dessiner le cycliste
 	private void BikerGraphics() {
 		Circle head = new Circle(0.2f, getHeadLocation());
 		Polyline leftArm = new Polyline(getShoulderLocation(), getLeftHandLocation());
@@ -179,6 +192,7 @@ public class Bike extends GameEntity implements Actor {
 		backGraphics.setParent(getEntity());
 	}
 
+	//methode permettant de l'effacer 
 	public void deleteGraphics() {
 		Circle circle = new Circle(0.0f);
 		headGraphics = new ShapeGraphics(circle, Color.WHITE, Color.WHITE, 0.2f);
@@ -187,6 +201,7 @@ public class Bike extends GameEntity implements Actor {
 		backGraphics = new ShapeGraphics(circle, Color.WHITE, Color.WHITE, 0.2f);
 	}
 
+	
 	private Vector getHeadLocation() {
 		return new Vector(0.0f, 1.75f);
 	}
@@ -196,7 +211,7 @@ public class Bike extends GameEntity implements Actor {
 	}
 
 	private Vector getLeftHandLocation() {
-		if (regard) {
+		if (look) {
 			return new Vector(0.5f, 1.0f);
 		} else {
 			return new Vector(-0.5f, 1.0f);
@@ -204,7 +219,7 @@ public class Bike extends GameEntity implements Actor {
 	}
 
 	private Vector getRightHandLocation() {
-		if (regard) {
+		if (look) {
 			return new Vector(0.5f, 1.0f);
 		} else {
 			return new Vector(-0.5f, 1.0f);
@@ -220,7 +235,7 @@ public class Bike extends GameEntity implements Actor {
 	}
 
 	private Vector getBottomLocation() {
-		if (regard) {
+		if (look) {
 			return new Vector(-0.5f, 1.0f);
 		} else {
 			return new Vector(0.5f, 1.0f);
@@ -228,7 +243,7 @@ public class Bike extends GameEntity implements Actor {
 	}
 
 	private Vector getUpdateLeftKneeLocation(float deltaTime) {
-		if (regard) {
+		if (look) {
 			return new Vector(0.2f * ((float) Math.sin((double) leftWheel.getEntity().getAngularPosition())),
 					0.6f + (0.2f * ((float) Math.sin((double) leftWheel.getEntity().getAngularPosition()))));
 		} else {
@@ -238,7 +253,7 @@ public class Bike extends GameEntity implements Actor {
 	}
 
 	private Vector getUpdateRightKneeLocation(float deltaTime) {
-		if (regard) {
+		if (look) {
 			return new Vector(0.2f * (-((float) Math.sin((double) leftWheel.getEntity().getAngularPosition()))),
 					0.6f + (0.2f * (-((float) Math.sin((double) leftWheel.getEntity().getAngularPosition())))));
 		} else {
@@ -248,7 +263,7 @@ public class Bike extends GameEntity implements Actor {
 	}
 
 	private Vector getUpdateLeftFootLocation(float deltaTime) {
-		if (regard) {
+		if (look) {
 			return new Vector((float) (0.3f * Math.cos((double) leftWheel.getEntity().getAngularPosition())),
 					(float) (0.3f * Math.sin((double) leftWheel.getEntity().getAngularPosition())));
 		} else {
@@ -258,7 +273,7 @@ public class Bike extends GameEntity implements Actor {
 	}
 
 	private Vector getUpdateRightFootLocation(float deltaTime) {
-		if (regard) {
+		if (look) {
 			return new Vector((float) (-0.3f * Math.cos((double) leftWheel.getEntity().getAngularPosition())),
 					(float) (-0.3f * Math.sin((double) leftWheel.getEntity().getAngularPosition())));
 		} else {
@@ -267,27 +282,31 @@ public class Bike extends GameEntity implements Actor {
 		}
 	}
 
+	//permet de savoir si le velo est touché
 	public boolean getHit() {
 		return hit;
 	}
-	
+
+	//permet de changer les controles 
 	public void setControl(boolean control) {
 		this.control = control;
 	}
-	
+
+	//permet de savoir quels controles sont utilisés
 	public boolean getControl() {
 		return control;
 	}
 
+	//permet d'optenir la position du velo
 	public Vector getPosition() {
 		return getEntity().getPosition();
 	}
-	
+
+	//permet de savoir vers où le cycliste regarde
 	public boolean getRegard() {
-		return regard;
+		return look;
 	}
-	
-	// supprimer des actors ???
+
 	@Override
 	public void destroy() {
 		getEntity().destroy();

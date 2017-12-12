@@ -19,25 +19,28 @@ public class BikeGame extends ActorGame {
 	private Bike bike;
 	private BoutonCrate bouton;
 	private BoutonCrate bouton2;
-	private TextGraphics message;
-	private boolean collision;
-	private boolean victoire;
 	private GhostCrate frog;
+	private TextGraphics message;
+	//indique si le cycliste est touché
+	private boolean collision;
+	//indique que le joueur a gagné
+	private boolean victoire;
 
+	//indique si le premier bouton est touché
 	private boolean boutonhit;
+	//indique si le deuxieme bouton est touché
 	private boolean boutonhit2;
 	
 	public boolean begin(Window window, FileSystem fileSystem) {
 		super.begin(window, fileSystem);
+		//On crée tous les acteurs et on les ajoute a la liste des acteurs
 		Terrain terrain = new Terrain(this, new Vector(0f, 0f));
 		addActor(terrain);
-
 		Crate crate1 = new Crate(this , false, new Vector(3.0f ,5.0f), 1, 1, "crate.1.png");
 		addActor(crate1);
 		Crate crate2 = new Crate(this , false, new Vector(5.0f ,7.0f), 1, 1, "crate.1.png");
 		addActor(crate2);
 		Crate crate3 = new Crate(this , false, new Vector(6.0f ,6.0f), 1, 1, "crate.1.png");
-
 		addActor(crate3);
 		Crate crate4 = new Crate(this , true, new Vector(-55.0f ,0.0f), 1, 2, "ghost.right.1.png");
 		addActor(crate4);
@@ -53,18 +56,21 @@ public class BikeGame extends ActorGame {
 		addActor(bouton2);
 		frog = new GhostCrate(this, true, new Vector(120, 0), 2, 2, "frog.left.png");
 		addActor(frog);
-		bike = new Bike(this, new Vector(-50.0f, 5.0f));
-		addActor(bike);
-		setViewCandidate(bike);
-
-		finish = new Finish(this, new Vector(76.0f, 0.0f));
 		TerrainGlissant terrainGlissant = new TerrainGlissant(this, new Vector(77.0f, 0.0f));
 		addActor(terrainGlissant);
+		finish = new Finish(this, new Vector(76.0f, 0.0f));
 		addActor(finish);
 		Arrow arrow = new Arrow(this, new Vector(-55f, 3.0f), 1f, 0.5f , "arrow.png");
 		addActor(arrow);
+		bike = new Bike(this, new Vector(-50.0f, 3.0f));
+		addActor(bike);
+		//On met la vue sur le cycliste
+		setViewCandidate(bike);
+		
+		//On indique que le cycliste n'est pas touché et n'a pas gagné (utile quand reset)
 		collision = false;
 		victoire = false;
+		//On crée le message (vide)
 		message = new TextGraphics("", 0.3f, Color.RED, Color.WHITE, 0.02f, true, false, new Vector(0.5f, 0.5f), 1.0f, 100.0f);
 		message.setParent(getCanvas()); 
 		message.setRelativeTransform(Transform.I.translated(0.0f, -1.0f));
@@ -144,8 +150,7 @@ public class BikeGame extends ActorGame {
 		}
 			
 		if (boutonhit2) {
-
-			Crate crate1 = new Crate(this , false, new Vector(85.0f ,10.0f), 10, 10, "duck.png");
+			Crate crate1 = new Crate(this , false, new Vector(85.0f ,3.0f), 10, 10, "duck.png");
 			addActor(crate1);
 			GhostCrate bouton2 = new GhostCrate(this, true, new Vector(90.0f, 0.0f), 1, 1,"button.red.pressed.png");
 			addActor(bouton2);
