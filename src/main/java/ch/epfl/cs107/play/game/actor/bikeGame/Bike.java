@@ -65,8 +65,8 @@ public class Bike extends GameEntity implements Actor {
     	graphics.setAlpha(0);
         graphics.setParent(getEntity());
         
-        leftWheel = new Wheel(game, false, new Vector (-51.0f, 9.0f),0.5f, "explosive.11.png", 1);
-		rightWheel = new Wheel(game, false, new Vector (-49.0f, 9.0f),0.5f, "explosive.11.png", 1);
+        leftWheel = new Wheel(game, false, new Vector (-51.0f, 3.0f),0.5f, "explosive.11.png", 1);
+		rightWheel = new Wheel(game, false, new Vector (-49.0f, 3.0f),0.5f, "explosive.11.png", 1);
         leftWheel.attach(getEntity(), new Vector(-1.0f, 0.0f), new Vector(-0.5f, -1.0f)); 
 		rightWheel.attach(getEntity(), new Vector(1.0f, 0.0f), new Vector(0.5f, -1.0f));
 
@@ -154,7 +154,9 @@ public class Bike extends GameEntity implements Actor {
 		}
 		}
 		if (getOwner().getKeyboard().get(KeyEvent.VK_SHIFT).isPressed() && (leftWheel.getGround() || rightWheel.getGround())) {
-			getEntity().applyImpulse(new Vector(0.0f, 10.0f), null);
+			getEntity().applyImpulse(new Vector(0, 3), null);
+			leftWheel.getEntity().applyImpulse( new Vector(0, 3), null);
+			rightWheel.getEntity().applyImpulse( new Vector(0, 3), null);
 		}
 		pedal(deltaTime);
 

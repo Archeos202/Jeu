@@ -3,7 +3,6 @@ package ch.epfl.cs107.play.game.actor.bikeGame;
 import java.awt.Color;
 import java.awt.event.KeyEvent;
 
-import com.sun.xml.internal.bind.v2.runtime.reflect.ListIterator;
 import ch.epfl.cs107.play.game.actor.Actor;
 import ch.epfl.cs107.play.game.actor.ActorGame;
 import ch.epfl.cs107.play.game.actor.GameEntity;
@@ -59,7 +58,7 @@ public class BikeGame extends ActorGame {
 		addActor(bouton2);
 		frog = new GhostCrate(this, true, new Vector(120, 0), 2, 2, "frog.left.png");
 		addActor(frog);
-		bike = new Bike(this, new Vector(-50.0f, 5.0f));
+		bike = new Bike(this, new Vector(-50.0f, 3.0f));
 		addActor(bike);
 		setViewCandidate(bike);
 
@@ -150,7 +149,7 @@ public class BikeGame extends ActorGame {
 		}
 			
 		if (boutonhit2) {
-			Crate crate1 = new Crate(this , false, new Vector(85.0f ,10.0f), 10, 10, "duck.png");
+			Crate crate1 = new Crate(this , false, new Vector(85.0f ,3.0f), 10, 10, "duck.png");
 			addActor(crate1);
 			GhostCrate bouton2 = new GhostCrate(this, true, new Vector(90.0f, 0.0f), 1, 1,"button.red.pressed.png");
 			addActor(bouton2);
