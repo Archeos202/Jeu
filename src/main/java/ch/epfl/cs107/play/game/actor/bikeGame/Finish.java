@@ -1,12 +1,11 @@
 package ch.epfl.cs107.play.game.actor.bikeGame;
 
-import java.awt.Color;
+
 
 import ch.epfl.cs107.play.game.actor.Actor;
 import ch.epfl.cs107.play.game.actor.ActorGame;
 import ch.epfl.cs107.play.game.actor.GameEntity;
 import ch.epfl.cs107.play.game.actor.ImageGraphics;
-import ch.epfl.cs107.play.game.actor.ShapeGraphics;
 import ch.epfl.cs107.play.math.BasicContactListener;
 import ch.epfl.cs107.play.math.Contact;
 import ch.epfl.cs107.play.math.ContactListener;
@@ -60,11 +59,9 @@ public class Finish extends GameEntity implements Actor {
 		return hit;
 	}
 	
-	//supprimer des actors ???
 	@Override
 	public void destroy() {
-		getEntity().destroy();
-		// PENSER A FAIRE DISPARAITRE GRAPHICS	
+		getEntity().destroy();	
 	}
 	
 	@Override
