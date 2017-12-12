@@ -98,7 +98,7 @@ public class BikeGame extends ActorGame {
 			banana.launch(bike.getRegard());
 		}
 		if (collision) {
-			message.setText("sa fé tré mal");
+			message.setText("Ouch, restart!");
 			message.draw(getCanvas());
 			bike.destroy();
 			deleteActor(bike);
@@ -107,7 +107,7 @@ public class BikeGame extends ActorGame {
 			victoire = true;
 		}
 		if (victoire) {
-			message.setText("c gagner");
+			message.setText("Congrats!");
 			message.draw(getCanvas());
 			bike.victoryArms();
 			deleteActor(frog);
