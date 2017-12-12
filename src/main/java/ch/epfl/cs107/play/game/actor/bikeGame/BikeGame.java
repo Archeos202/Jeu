@@ -8,13 +8,9 @@ import ch.epfl.cs107.play.game.actor.ActorGame;
 import ch.epfl.cs107.play.game.actor.GameEntity;
 import ch.epfl.cs107.play.game.actor.TextGraphics;
 import ch.epfl.cs107.play.game.actor.crate.Crate;
-import ch.epfl.cs107.play.game.actor.general.Wheel;
 import ch.epfl.cs107.play.io.FileSystem;
-import ch.epfl.cs107.play.math.Entity;
-import ch.epfl.cs107.play.math.RopeConstraintBuilder;
 import ch.epfl.cs107.play.math.Transform;
 import ch.epfl.cs107.play.math.Vector;
-import ch.epfl.cs107.play.math.WheelConstraintBuilder;
 import ch.epfl.cs107.play.window.Window;
 
 public class BikeGame extends ActorGame {
