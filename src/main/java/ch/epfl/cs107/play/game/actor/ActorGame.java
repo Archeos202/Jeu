@@ -26,6 +26,8 @@ import ch.epfl.cs107.play.window.Window;
 
 public abstract class ActorGame implements Game {
 
+	private ImageGraphics backGround;
+
 	// Store context
 	private Window window;
 
@@ -39,15 +41,15 @@ public abstract class ActorGame implements Game {
 	public Canvas getCanvas() {
 		return window;
 	}
-	
+
 	public Window getWindow() {
 		return window;
 	}
-	
+
 	public FileSystem getFileSystem() {
-			return fileSystem;
-		}
-	
+		return fileSystem;
+	}
+
 	// Define cascading file system
 	FileSystem fileSystem = new FolderFileSystem(new ResourceFileSystem(DefaultFileSystem.INSTANCE));
 
@@ -78,13 +80,13 @@ public abstract class ActorGame implements Game {
 		entityBuilder.setFixed(fixed);
 		entityBuilder.setPosition(position);
 		entity = entityBuilder.build();
-		return entity ;
+		return entity;
 	}
+
 	public WheelConstraintBuilder createWheelConstraint() {
 		return world.createWheelConstraintBuilder();
 	}
-	
-	
+
 	// This event is raised when game has just started
 	@Override
 	public boolean begin(Window window, FileSystem fileSystem) {
@@ -95,6 +97,10 @@ public abstract class ActorGame implements Game {
 		// Create physics engine
 		world = new World();
 		world.setGravity(new Vector(0.0f, -9.81f));
+
+		backGround = new ImageGraphics("sun.1.png", 1, 1, new Vector( 0.5f, 0.5f), 1f, 1f);
+		backGround.setDepth(-5);
+		backGround.setParent(window);
 
 		viewCenter = Vector.ZERO;
 		viewTarget = Vector.ZERO;
@@ -128,7 +134,9 @@ public abstract class ActorGame implements Game {
 		// Compute new viewport
 		Transform viewTransform = Transform.I.scaled(VIEW_SCALE).translated(viewCenter);
 		window.setRelativeTransform(viewTransform);
-		
+
+		backGround.draw(window);
+
 		for (Actor actor : ActorList) {
 			actor.draw(window);
 		}

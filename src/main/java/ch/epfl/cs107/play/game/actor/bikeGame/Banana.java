@@ -1,47 +1,43 @@
 package ch.epfl.cs107.play.game.actor.bikeGame;
 
-import java.awt.Color;
-
 import ch.epfl.cs107.play.game.actor.Actor;
 import ch.epfl.cs107.play.game.actor.ActorGame;
 import ch.epfl.cs107.play.game.actor.GameEntity;
 import ch.epfl.cs107.play.game.actor.ImageGraphics;
-import ch.epfl.cs107.play.game.actor.ShapeGraphics;
 import ch.epfl.cs107.play.math.PartBuilder;
 import ch.epfl.cs107.play.math.Polygon;
-import ch.epfl.cs107.play.math.Polyline;
-import ch.epfl.cs107.play.math.Shape;
 import ch.epfl.cs107.play.math.Transform;
 import ch.epfl.cs107.play.math.Vector;
 import ch.epfl.cs107.play.window.Canvas;
 
-public class TerrainGlissant extends GameEntity implements Actor {
+public class Banana extends GameEntity implements Actor {
+		private ImageGraphics graphics;
 
-		private ShapeGraphics graphics;
+		public Banana(ActorGame game, boolean fixed, Vector position, float width, float height, String name) {
+			super(game, fixed, position);
+			graphics = new ImageGraphics(name, width, height);
 
-		public TerrainGlissant(ActorGame game, Vector position) { 
-			super(game, true, position);
-			
 	        PartBuilder partBuilder = getEntity().createPartBuilder(); 
-	        Polyline polyline = new Polyline(0.0f, 0.f,
-	        		100.0f,0.0f,
-	        		100.0f, -100.0f,
-	        		0.0f, -100f
-	        		);
-	        partBuilder.setShape(polyline);
-	        partBuilder.setFriction(0.01f);
+	         
+	        Polygon polygon = new Polygon(
+	        		new Vector(0.0f, 0.0f),
+	        		new Vector(width, 0.0f),
+	        		new Vector(width,height),
+	        		new Vector(0.0f, height ) ); 
+	        
+	        partBuilder.setShape(polygon);
+	        partBuilder.setCollisionGroup(1);
+	        partBuilder.setFriction(50.0f);
 	        partBuilder.build();
-	        graphics = new ShapeGraphics(polyline, Color.GREEN, Color.BLUE , 0.05f);
 	        
 	        graphics.setParent(getEntity());
+		
 		}
-		
-		
 		//supprimer des actors ???
 		@Override
 		public void destroy() {
 			getEntity().destroy();
-			// PENSER A FAIRE DISPARAITRE GRAPHICS	
+			graphics = new ImageGraphics("",0f, 0f);
 		}
 		
 		@Override
@@ -57,6 +53,13 @@ public class TerrainGlissant extends GameEntity implements Actor {
 		@Override
 		public void draw(Canvas canvas) {
 			graphics.draw(canvas);
+		}
+
+		public void launch(boolean direction) {
+			if (direction)
+			getEntity().applyImpulse(new Vector (-2.0f, 2.0f), null);
+			if (!direction)
+			getEntity().applyImpulse(new Vector (2.0f, 2.0f), null);
 		}
 
 	}
