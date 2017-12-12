@@ -22,6 +22,7 @@ public class BikeGame extends ActorGame {
 
 	private Finish finish;
 	private Bike bike;
+	private Banana banana;
 	private BoutonCrate bouton;
 	private BoutonCrate bouton2;
 	private TextGraphics message;
@@ -86,6 +87,11 @@ public class BikeGame extends ActorGame {
 				deleteActor(ActorList.get(i));
 			}
 		}
+		if (getKeyboard().get(KeyEvent.VK_B).isPressed()) {
+			Banana banana = new Banana(this, false, (bike.getPosition()), 0.5f, 0.5f, "banana.png");
+			addActor(banana);
+			banana.launch(bike.getRegard());
+		}
 		if (collision) {
 			message.setText("sa fé tré mal");
 			message.draw(getCanvas());
@@ -99,6 +105,8 @@ public class BikeGame extends ActorGame {
 			message.setText("c gagner");
 			message.draw(getCanvas());
 			bike.victoryArms();
+			GhostCrate princesse = new GhostCrate(this, true, new Vector(120.0f, 0.0f), 2, 2, "banana.png");
+			addActor(princesse);
 		}
 		if (bouton.getHit()) {
 			deleteActor(bouton);
@@ -136,7 +144,7 @@ public class BikeGame extends ActorGame {
 		}
 			
 		if (boutonhit2) {
-			Crate crate1 = new Crate(this , false, new Vector(85.0f ,3.0f), 10, 10, "duck.png");
+			Crate crate1 = new Crate(this , false, new Vector(85.0f ,10.0f), 10, 10, "duck.png");
 			addActor(crate1);
 			GhostCrate bouton2 = new GhostCrate(this, true, new Vector(90.0f, 0.0f), 1, 1,"button.red.pressed.png");
 			addActor(bouton2);
@@ -145,11 +153,11 @@ public class BikeGame extends ActorGame {
 		}
 		if (getKeyboard().get(KeyEvent.VK_C).isPressed()) {
 			if (bike.getControl()) {
-				bike.setControlTwo();
+				bike.setControl(false);
 				System.out.print("hello");
 			}
 			else if (!bike.getControl()) {
-				bike.setControlOne();
+				bike.setControl(true);
 			}
 		}
 		

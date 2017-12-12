@@ -37,11 +37,12 @@ public class Terrain extends GameEntity implements Actor {
 	        		65.0f, 0.0f,
 	        		75.0f, 5.0f,
 	        		75.0f, 0.0f,
-	        		78.0f, 0.0f
+	        		78.0f, 0.0f,
+	        		78.0f, -1000f
 	        		);
 	        partBuilder.setShape(polyline);
 	        partBuilder.build();
-	        graphics = new ShapeGraphics(polyline, Color.BLACK, Color.WHITE , 0.05f);
+	        graphics = new ShapeGraphics(polyline, Color.GREEN, Color.PINK , 0.05f);
 	        
 	        graphics.setParent(getEntity());
 		}

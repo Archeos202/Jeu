@@ -271,18 +271,22 @@ public class Bike extends GameEntity implements Actor {
 		return hit;
 	}
 	
-	public void setControlOne() {
-		this.control = true;
-	}
-
-	public void setControlTwo() {
-		this.control = false;
+	public void setControl(boolean control) {
+		this.control = control;
 	}
 	
 	public boolean getControl() {
 		return control;
 	}
 
+	public Vector getPosition() {
+		return getEntity().getPosition();
+	}
+	
+	public boolean getRegard() {
+		return regard;
+	}
+	
 	// supprimer des actors ???
 	@Override
 	public void destroy() {
