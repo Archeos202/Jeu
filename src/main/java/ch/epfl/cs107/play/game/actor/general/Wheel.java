@@ -109,11 +109,6 @@ public class Wheel extends GameEntity implements Actor {
 		return constraint.getMotorSpeed() ;
 	}
 	
-	
-	//public Part getPart() {
-		//return part;
-	//}
-	
 	public void destroy() {
 		getEntity().destroy();
 		graphics = new ImageGraphics("", 0, 0, new Vector(0.5f , 0.5f));

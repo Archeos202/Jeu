@@ -2,7 +2,6 @@ package ch.epfl.cs107.play.game.actor.bikeGame;
 
 import java.awt.Color;
 import java.awt.event.KeyEvent;
-
 import ch.epfl.cs107.play.game.actor.Actor;
 import ch.epfl.cs107.play.game.actor.ActorGame;
 import ch.epfl.cs107.play.game.actor.GameEntity;
@@ -92,11 +91,7 @@ public class BikeGame extends ActorGame {
 			bike.destroy();
 			deleteActor(bike);
 		}
-		//On termine le monde et on le recrée quand r est pressé (reset)
-		if (getKeyboard().get(KeyEvent.VK_R).isPressed()) {
-			this.end();
-			this.begin(getWindow(), getFileSystem());
-		}
+		
 		//on vérifie que les acteurs sont en vie, on les suprime dans le cas contraire
 		for (int i = 0; i < ActorList.size(); i++) {
 			if (!((GameEntity) ActorList.get(i)).getEntity().isAlive()) {
@@ -191,7 +186,8 @@ public class BikeGame extends ActorGame {
 		if (getKeyboard().get(KeyEvent.VK_R).isPressed()) {
 				this.end();
 				this.begin(getWindow(), getFileSystem());
-		} 
+		}
+		
 		for(int i = 0; i < ActorList.size(); i++) {
 			if(!((GameEntity)ActorList.get(i)).getEntity().isAlive()) {
 				deleteActor(ActorList.get(i));

@@ -22,7 +22,6 @@ public abstract class GameEntity {
 			System.exit(0);
 		}
 
-		
 		this.game = game;
 		entity = this.game.createEntity(entity, fixed, position);
 	}
