@@ -46,6 +46,8 @@ public class ScaleGame implements Game {
         
         
         //................block...............
+        // On crée successivement la représentation graphique, l'entité,
+        // et la forme physique du bloc.
         blockGraphics = new ImageGraphics("stone.broken.4.png", 10f, 1f);
         blockGraphics.setAlpha(1.0f);
         blockGraphics.setDepth(0.0f);
@@ -71,6 +73,7 @@ public class ScaleGame implements Game {
         
         
         //.................plank...................
+        // De même pour la planche.
         plankGraphics = new ImageGraphics("wood.3.png", 5.0f, 0.2f);
         plankGraphics.setAlpha(1.0f);
         plankGraphics.setDepth(0.0f);
@@ -94,6 +97,8 @@ public class ScaleGame implements Game {
         
         
         //....................ball.................
+        // De même pour la balle, à noter que la forme physique d'un cercle 
+        // se crée de manière différente à celle d'un polygone.
         ballGraphics = new ImageGraphics("explosive.11.png", 1, 1,
         		new Vector(0.5f, 0.5f) );
         ballGraphics.setAlpha(1.0f);
@@ -112,13 +117,13 @@ public class ScaleGame implements Game {
         
         ballGraphics.setParent(ball);
 
-        //............................................
+        // On crée un pivot au milieu de la planche fixée au bloc
         RevoluteConstraintBuilder revoluteConstraintBuilder =
         		world.createRevoluteConstraintBuilder();
         revoluteConstraintBuilder.setFirstEntity(block);
-        revoluteConstraintBuilder.setFirstAnchor(new Vector(10f/2, (1f*7)/4)); 
+        revoluteConstraintBuilder.setFirstAnchor(new Vector(blockGraphics.getWidth()/2, ((blockGraphics.getHeight())*7)/4)); 
         revoluteConstraintBuilder.setSecondEntity(plank); 
-        revoluteConstraintBuilder.setSecondAnchor(new Vector(5f/2, 0.2f/2)); 
+        revoluteConstraintBuilder.setSecondAnchor(new Vector(plankGraphics.getWidth()/2, plankGraphics.getHeight()/2)); 
         revoluteConstraintBuilder.setInternalCollision(true); 
         revoluteConstraintBuilder.build();
 
@@ -129,6 +134,9 @@ public class ScaleGame implements Game {
     @Override
     public void update(float deltaTime) {
        
+    	// On met en place une fonction de contrôles par le clavier, ici en
+    	// avec les touches "LEFT" et "RIGHT" qui donnent une force angulaire
+    	// à la balle en fonction de la direction souhaitée.
     	if (window.getKeyboard().get(KeyEvent.VK_LEFT).isDown()) { 
     		ball.applyAngularForce(10.0f);
     	} else if (window.getKeyboard().get(KeyEvent.VK_RIGHT).isDown()) { 

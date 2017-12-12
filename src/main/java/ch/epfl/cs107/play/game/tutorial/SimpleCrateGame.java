@@ -42,13 +42,16 @@ public class SimpleCrateGame implements Game {
 
         this.window = window;
         
+        // On crée l'entité dans le monde en la fixant et en lui donnant une position.
         EntityBuilder entityBuilder = world.createEntityBuilder();
         entityBuilder.setFixed(true);
         entityBuilder.setPosition(new Vector(1.0f, 0.5f));
         blockBody = entityBuilder.build();
         
+        // Il nous faut lui créer une forme physique pour qu'on puisse simuler des collisions.
         PartBuilder partBuilder = blockBody.createPartBuilder(); 
          
+        // On crée donc un carré.
         Polygon polygon = new Polygon(
         		new Vector(0.0f, 0.0f),
         		new Vector(1.0f, 0.0f),
@@ -59,6 +62,7 @@ public class SimpleCrateGame implements Game {
         partBuilder.setFriction(0.5f);
         partBuilder.build();
         
+        // On fait de même pour la deuxième entité.
         EntityBuilder entityBuilder2 = world.createEntityBuilder();
         entityBuilder2.setFixed(false);
         entityBuilder2.setPosition(new Vector(0.2f, 4.0f));
@@ -68,6 +72,7 @@ public class SimpleCrateGame implements Game {
         partBuilder2.setShape(polygon);
         partBuilder2.build();
         
+        // Et on leur donne des représentations graphiques.
         block = new ImageGraphics("stone.broken.4.png", 1, 1);
         block.setAlpha(1.0f);
         block.setDepth(0.0f);
@@ -85,9 +90,6 @@ public class SimpleCrateGame implements Game {
     // This event is called at each frame
     @Override
     public void update(float deltaTime) {
-       
-        // Game logic comes here
-    	//nothing to do, yet
     	
     	// Simulate physics
         // Our body is fixed , though , nothing will move
