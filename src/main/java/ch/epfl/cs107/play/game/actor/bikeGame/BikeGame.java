@@ -28,6 +28,7 @@ public class BikeGame extends ActorGame {
 	private TextGraphics message;
 	private boolean collision;
 	private boolean victoire;
+	private GhostCrate frog;
 
 	private boolean boutonhit;
 	private boolean boutonhit2;
@@ -44,16 +45,20 @@ public class BikeGame extends ActorGame {
 		Crate crate3 = new Crate(this , false, new Vector(6.0f ,6.0f), 1, 1, "crate.1.png");
 
 		addActor(crate3);
-		Crate crate4 = new Crate(this , true, new Vector(-55.0f ,0.0f), 1, 2, "");
+		Crate crate4 = new Crate(this , true, new Vector(-55.0f ,0.0f), 1, 2, "ghost.right.1.png");
 		addActor(crate4);
-		GhostCrate crate5 = new GhostCrate(this,true,new Vector(-55.5f, 1.75f),0.5f ,1f, "bow.png");
+		Crate crate5 = new Crate(this , true, new Vector(176.0f ,0.0f), 1, 2, "ghost.left.1.png");
 		addActor(crate5);
-		Crate crate6 = new Crate(this ,true , new Vector(-40.0f ,0.0f), 1, 1, "crate.2.png");
+		GhostCrate crate6 = new GhostCrate(this,true,new Vector(-55.5f, 1.75f),0.5f ,1f, "bow.png");
 		addActor(crate6);
+		Crate crate7 = new Crate(this ,true , new Vector(-40.0f ,0.0f), 1, 1, "crate.2.png");
+		addActor(crate7);
 		bouton = new BoutonCrate(this, true,new Vector(-25.0f, 0.0f), 1, 1,"button.red.png");
 		addActor(bouton);
 		bouton2 = new BoutonCrate(this, true,new Vector(90.0f, 0.0f), 1, 1,"button.red.png");
 		addActor(bouton2);
+		frog = new GhostCrate(this, true, new Vector(120, 0), 2, 2, "frog.left.png");
+		addActor(frog);
 		bike = new Bike(this, new Vector(-50.0f, 5.0f));
 		addActor(bike);
 		setViewCandidate(bike);
@@ -105,7 +110,8 @@ public class BikeGame extends ActorGame {
 			message.setText("c gagner");
 			message.draw(getCanvas());
 			bike.victoryArms();
-			GhostCrate princesse = new GhostCrate(this, true, new Vector(120.0f, 0.0f), 2, 2, "banana.png");
+			deleteActor(frog);
+			GhostCrate princesse = new GhostCrate(this, true, new Vector(120.0f, 0.0f), 3, 3, "frog.princesse.png");
 			addActor(princesse);
 		}
 		if (bouton.getHit()) {

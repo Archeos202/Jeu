@@ -35,6 +35,7 @@ public class GhostCrate extends GameEntity implements Actor {
         partBuilder.setGhost(true);
         partBuilder.build();
         
+        graphics.setDepth(-1f);
         graphics.setParent(getEntity());
 	}
 	
