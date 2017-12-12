@@ -74,7 +74,7 @@ public class Bike extends GameEntity implements Actor {
 
 		ContactListener listener = new ContactListener() {
 			@Override
-			// On signale que le cycliste est touché si ce qui l'a touché ni ni une roue ni
+			// On signale que le cycliste est touché si ce qui l'a touché n'est ni une roue ni
 			// un ghost
 			public void beginContact(Contact contact) {
 				if (contact.getOther().isGhost())
@@ -127,10 +127,14 @@ public class Bike extends GameEntity implements Actor {
 		}
 		if (!control) {
 			//les controles "alternatifs"
+			if (getOwner().getKeyboard().get(KeyEvent.VK_SPACE).isDown()) {
+				leftWheel.power(0.0f);
+				rightWheel.power(0.0f);
+			}
 			if (leftWheel.getSpeed() >= -MAX_WHEEL_SPEED) {
 				if (getOwner().getKeyboard().get(KeyEvent.VK_RIGHT).isDown()) {
 					leftWheel.power(-MAX_WHEEL_SPEED);
-					// on signifie que le regard change et on ne redessine le cycliste qu'une fois par appuie
+					// on signifie que le regard change et on ne redessine le cycliste qu'une fois par pression
 				}
 				if (getOwner().getKeyboard().get(KeyEvent.VK_RIGHT).isPressed()) {
 					look = true;

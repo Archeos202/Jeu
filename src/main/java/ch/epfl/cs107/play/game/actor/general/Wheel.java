@@ -18,24 +18,35 @@ import ch.epfl.cs107.play.window.Canvas;
 
 public class Wheel extends GameEntity implements Actor {
 	private ImageGraphics graphics;
+	//les roues ont leur contraintes, le vehicule auquel elles sont attachées et sa part comme attribut
 	private WheelConstraint constraint;
 	private Entity vehicle;
 	private Part part;
+	//ground indique si les roues touchent le sol
 	private boolean ground;
 	
 	public Wheel(ActorGame game,boolean fixed, Vector position, float radius, String name) {
 		super(game, fixed, position);
+		
+		//on crée la représentation graphique en fonction des parametres
 		graphics = new ImageGraphics(name, radius*2, radius*2, new Vector(0.5f , 0.5f));
+		
 		PartBuilder partBuilder = getEntity().createPartBuilder();
+		
+		//on construit les roues de la taille indiquée dans les parametres
 		Circle circle = new Circle (radius);
 		partBuilder.setShape(circle);
 		partBuilder.setFriction(10.0f);
+		//on assigne au roues les groupes de collisions qui permettent de :
+		// groupe 1 : ne pas tuer le velo
 		partBuilder.setCollisionGroup(1);
+		// groupe 2 : etre detecter par le drapeau
 		partBuilder.setCollisionGroup(2);
 		part = partBuilder.build();
 		graphics.setParent(getEntity());
 	}
 	
+	//permet d'attacher les roues au cycliste
 	public void attach(Entity vehicle, Vector anchor, Vector axis) {
 		WheelConstraintBuilder constraintBuilder = getOwner().createWheelConstraint();
 		constraintBuilder.setFirstEntity(vehicle);
@@ -57,10 +68,13 @@ public class Wheel extends GameEntity implements Actor {
 		this.vehicle = vehicle;
 	}
 	
+	
 	public void update(float deltaTime) {
 	ContactListener listener = new ContactListener() {
 		@Override
+		//permet d'indiquer si les roues touchent quelquechose ou non 
 		public void beginContact(Contact contact) {
+			//bien sur on ne peut pas sauter en s'appuyant sur un ghost
 			if (contact.getOther().isGhost())
 				return;
 				ground = true;
@@ -74,33 +88,33 @@ public class Wheel extends GameEntity implements Actor {
 	getEntity().addContactListener(listener);
 	}
 
+	//permet de savoir si les roues touchent quelquechose ou non 
 	public boolean getGround() {
 		return ground;
 	}
 	
+	//permet de faire tourner les roues a une force donnée
 	public void power(float speed) {
 		constraint.setMotorEnabled(true);
 		constraint.setMotorSpeed(speed);
 	}
 	
+	//desactive la motorisation
 	public void relax() {
 		constraint.setMotorEnabled(false);
 	}
 	
-	public void detach() {
-		//constraint = null;   C CLEREMANT PAS SA !!!
-	}
-	
+	//permet d'obtenir la vitesse des roues
 	public float getSpeed() {
 		return constraint.getMotorSpeed() ;
 	}
 	
-	public Part getPart() {
-		return part;
-	}
+	
+	//public Part getPart() {
+		//return part;
+	//}
 	
 	public void destroy() {
-		detach();
 		getEntity().destroy();
 		graphics = new ImageGraphics("", 0, 0, new Vector(0.5f , 0.5f));
 	}

@@ -15,6 +15,7 @@ import ch.epfl.cs107.play.window.Canvas;
 public class BoutonCrate extends GameEntity implements Actor {
 
 	private ImageGraphics graphics;
+	//indique si le bouton est touché ou non
 	private Boolean hit;
 
 	public BoutonCrate(ActorGame game, boolean fixed, Vector position, float width, float height, String name) {
@@ -30,14 +31,18 @@ public class BoutonCrate extends GameEntity implements Actor {
         		new Vector(0.0f, height ) ); 
         
         partBuilder.setShape(polygon);
+        //le bouton est bien sur un ghost
         partBuilder.setGhost(true);
         partBuilder.build();
         
         graphics.setParent(getEntity());
         
+        //on initialise le contact comme n'ayant pas lieu
         hit = false;
+        
         ContactListener listener = new ContactListener() {
 			@Override 
+			//le contactListener change la valeur de hit quand le contact a lieu
 			public void beginContact(Contact contact) { 
 				hit = true;
 				} 
@@ -49,10 +54,11 @@ public class BoutonCrate extends GameEntity implements Actor {
 		getEntity().addContactListener(listener);
 	}
 	
+	//permet de savoir si le bouton est touché
 	public boolean getHit() {
 		return hit;
 	}
-	//supprimer des actors ???
+	
 	@Override
 	public void destroy() {
 		getEntity().destroy();
