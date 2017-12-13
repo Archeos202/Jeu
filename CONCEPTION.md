@@ -6,3 +6,5 @@ Nous avons créer, en plus :
 - toujours dans bike (et en utilisant wheel), la posibilité de faire un saut
 - Une nouvelle classe Banane utilisé pour permettre de lancer des bananes en appuyant sur B
 - Une classe Terrain Glissant qui difère du Terrain classique par une friction bien moindre
+
+Concernant la méthode pedal(deltaTime) de Bike.java (l. 363), la position des genoux suit une diagonale plutôt qu'un arc de cercle, rendant ainsi le pédalement non parfait mais amplement suffisant.
