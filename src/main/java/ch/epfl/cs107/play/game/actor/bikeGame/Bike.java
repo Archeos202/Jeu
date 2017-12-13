@@ -19,8 +19,8 @@ import ch.epfl.cs107.play.math.Vector;
 import ch.epfl.cs107.play.window.Canvas;
 
 public class Bike extends GameEntity implements Actor {
-	// attribut des graphics du cicliste (celui de la hitbox est conservé en cas
-	// d'utilisation eventuelle plus tard)
+	// Attributs des graphics du cycliste (celui de la hitbox est conservé en cas
+	// d'utilisation éventuelle plus tard)
 	private ShapeGraphics graphics;
 	private ShapeGraphics headGraphics;
 	private ShapeGraphics leftArmGraphics;
@@ -30,15 +30,15 @@ public class Bike extends GameEntity implements Actor {
 	private ShapeGraphics rightThighGraphics;
 	private ShapeGraphics leftFootGraphics;
 	private ShapeGraphics rightFootGraphics;
-	// attribut des deuw roues attachées
+	// Attributs des deuw roues attachées
 	private Wheel rightWheel;
 	private Wheel leftWheel;
-	// indique vers ou le cycliste regarde (true = droite)
+	// Indique vers ou le cycliste regarde (true = droite)
 	private boolean look;
-	// indique si le cycliste est touché
+	// Indique si le cycliste est touché
 	private boolean hit;
 	private float MAX_WHEEL_SPEED;
-	// indique quel type de controle est utilisé (true = celui de base)
+	// Indique quel type de contrôle est utilisé (true = celui de base)
 	private boolean control;
 
 	public Bike(ActorGame game, Vector position) {
@@ -46,27 +46,27 @@ public class Bike extends GameEntity implements Actor {
 		PartBuilder partBuilder = getEntity().createPartBuilder();
 		Polygon polygon = new Polygon(new Vector(0.0f, 0.5f), new Vector(0.5f, 1.0f), new Vector(0.0f, 2.0f),
 				new Vector(-0.5f, 1.0f));
-		// la hitbox est bien sur un ghost
+		// La hitbox est bien sur un ghost
 		partBuilder.setGhost(true);
 		partBuilder.setShape(polygon);
-		// cela permettra au drapeau de détecter la hitbox
+		// Cela permettra au drapeau de détecter la hitbox
 		partBuilder.setCollisionGroup(2);
 		partBuilder.build();
 
-		// on initialise la vitesse moteur max ainsi que les controles et le regard
+		// On initialise la vitesse moteur max ainsi que les contrôles et le regard
 		MAX_WHEEL_SPEED = 20.0f;
 		look = true;
 		control = true;
 
-		// on crée les graphics du cycliste
+		// On crée les graphics du cycliste
 		BikerGraphics();
 
 		graphics = new ShapeGraphics(polygon, Color.ORANGE, Color.RED, 0.1f);
-		// on ne souhaite pas voir la hitbox, on la rend donc transparente
+		// On ne souhaite pas voir la hitbox, on la rend donc transparente
 		graphics.setAlpha(0);
 		graphics.setParent(getEntity());
 
-		// On crée les deux roues du velo et les attaches
+		// On crée les deux roues du vélo et les attaches
 		leftWheel = new Wheel(game, false, new Vector(-51.0f, 3.0f), 0.5f, "explosive.11.png");
 		rightWheel = new Wheel(game, false, new Vector(-49.0f, 3.0f), 0.5f, "explosive.11.png");
 		leftWheel.attach(getEntity(), new Vector(-1.0f, 0.0f), new Vector(-0.5f, -1.0f));
@@ -97,9 +97,9 @@ public class Bike extends GameEntity implements Actor {
 	public void update(float deltaTime) {
 		rightWheel.relax();
 		leftWheel.relax();
-		// verifie quels controles sont actifs et les appliquent
+		// Vérifie quels contrôles sont actifs et les appliquent
 		if (control) {
-			//les controles classiques
+			// Les contrôles classiques
 			if (getOwner().getKeyboard().get(KeyEvent.VK_SPACE).isPressed()) {
 				look = !look;
 				BikerGraphics();
@@ -126,7 +126,7 @@ public class Bike extends GameEntity implements Actor {
 			}
 		}
 		if (!control) {
-			//les controles "alternatifs"
+			// Les contrôles "alternatifs"
 			if (getOwner().getKeyboard().get(KeyEvent.VK_SPACE).isDown()) {
 				leftWheel.power(0.0f);
 				rightWheel.power(0.0f);
@@ -134,7 +134,7 @@ public class Bike extends GameEntity implements Actor {
 			if (leftWheel.getSpeed() >= -MAX_WHEEL_SPEED) {
 				if (getOwner().getKeyboard().get(KeyEvent.VK_RIGHT).isDown()) {
 					leftWheel.power(-MAX_WHEEL_SPEED);
-					// on signifie que le regard change et on ne redessine le cycliste qu'une fois par pression
+					// On signifie que le regard change et on ne redessine le cycliste qu'une fois par pression
 				}
 				if (getOwner().getKeyboard().get(KeyEvent.VK_RIGHT).isPressed()) {
 					look = true;
@@ -150,7 +150,7 @@ public class Bike extends GameEntity implements Actor {
 					BikerGraphics();
 				}
 			}
-			//les roues se levent en fonction de l'orientation du cycliste
+			// Les roues se lèvent en fonction de l'orientation du cycliste
 			if (getOwner().getKeyboard().get(KeyEvent.VK_DOWN).isDown()) {
 				if (!look)
 					getEntity().applyAngularForce(30.0f);
@@ -164,8 +164,8 @@ public class Bike extends GameEntity implements Actor {
 					getEntity().applyAngularForce(30.0f);
 			}
 		}
-		//la commande de saut commune
-		//On verifient que les roue touche un non-ghost et on fait sauter le velo
+		// La commande de saut commune
+		// On verifie que les roue touchent un non-ghost et on fait sauter le vélo
 		if ((getOwner().getKeyboard().get(KeyEvent.VK_SHIFT).isPressed())
 				&& (leftWheel.getGround() || rightWheel.getGround())) {
 			getEntity().applyImpulse(new Vector(0, 3), null);
@@ -180,7 +180,7 @@ public class Bike extends GameEntity implements Actor {
 		rightWheel.update(deltaTime);
 	}
 
-	//methode permettant de dessiner le cycliste
+	// Méthode permettant de dessiner le cycliste
 	private void BikerGraphics() {
 		Circle head = new Circle(0.2f, getHeadLocation());
 		Polyline leftArm = new Polyline(getShoulderLocation(), getLeftHandLocation());
@@ -198,7 +198,7 @@ public class Bike extends GameEntity implements Actor {
 		backGraphics.setParent(getEntity());
 	}
 
-	//methode permettant de l'effacer 
+	// Méthode permettant de l'effacer 
 	public void deleteGraphics() {
 		Circle circle = new Circle(0.0f);
 		headGraphics = new ShapeGraphics(circle, Color.WHITE, Color.WHITE, 0.2f);
@@ -292,27 +292,27 @@ public class Bike extends GameEntity implements Actor {
 		}
 	}
 
-	//permet de savoir si le velo est touché
+	// Permet de savoir si le vélo est touché
 	public boolean getHit() {
 		return hit;
 	}
 
-	//permet de changer les controles 
+	// Permet de changer les contrôles 
 	public void setControl(boolean control) {
 		this.control = control;
 	}
 
-	//permet de savoir quels controles sont utilisés
+	// Permet de savoir quels contrôles sont utilisés
 	public boolean getControl() {
 		return control;
 	}
 
-	//permet d'optenir la position du velo
+	// Permet d'optenir la position du vélo
 	public Vector getPosition() {
 		return getEntity().getPosition();
 	}
 
-	//permet de savoir vers où le cycliste regarde
+	// Permet de savoir vers où le cycliste regarde
 	public boolean getRegard() {
 		return look;
 	}

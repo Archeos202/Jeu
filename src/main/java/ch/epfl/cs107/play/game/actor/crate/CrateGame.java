@@ -8,7 +8,7 @@ import ch.epfl.cs107.play.window.Window;;
 
 public class CrateGame extends ActorGame {
 	
-	//"jeu" tres simple on ne fait que créer trois caisses
+	// "Jeu" très simple on ne fait que créer trois caisses
 	public boolean begin(Window window, FileSystem fileSystem) {
 		super.begin(window, fileSystem);
 		Crate crate1 = new Crate(this , false, new Vector(0.0f ,5.0f), 1, 1, "crate.1.png", false);

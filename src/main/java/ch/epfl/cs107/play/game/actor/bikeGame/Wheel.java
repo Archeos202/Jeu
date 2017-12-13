@@ -18,50 +18,50 @@ import ch.epfl.cs107.play.window.Canvas;
 
 public class Wheel extends GameEntity implements Actor {
 	private ImageGraphics graphics;
-	//les roues ont leur contraintes, le vehicule auquel elles sont attachées et sa part comme attribut
+	// Les roues ont leur contraintes, le véhicule auquel elles sont attachées et sa part comme attribut
 	private WheelConstraint constraint;
 	private Entity vehicle;
-	//ground indique si les roues touchent le sol
+	// Ground indique si les roues touchent le sol
 	private boolean ground;
 	
 	public Wheel(ActorGame game,boolean fixed, Vector position, float radius, String name) {
 		super(game, fixed, position);
 		
-		//on crée la représentation graphique en fonction des parametres
+		// On crée la représentation graphique en fonction des parametres
 		graphics = new ImageGraphics(name, radius*2, radius*2, new Vector(0.5f , 0.5f));
 		
 		PartBuilder partBuilder = getEntity().createPartBuilder();
 		
-		//on construit les roues de la taille indiquée dans les parametres
+		// On construit les roues de la taille indiquée dans les paramètres
 		Circle circle = new Circle (radius);
 		partBuilder.setShape(circle);
 		partBuilder.setFriction(10.0f);
-		//on assigne au roues les groupes de collisions qui permettent de :
-		// groupe 1 : ne pas tuer le velo
+		// On assigne au roues les groupes de collisions qui permettent de :
+		// Groupe 1 : ne pas tuer le vélo
 		partBuilder.setCollisionGroup(1);
-		// groupe 2 : etre detecter par le drapeau
+		// Groupe 2 : être détecter par le drapeau
 		partBuilder.setCollisionGroup(2);
 		Part part = partBuilder.build();
 		graphics.setParent(getEntity());
 	}
 	
-	//permet d'attacher les roues au cycliste
+	// Permet d'attacher les roues au cycliste
 	public void attach(Entity vehicle, Vector anchor, Vector axis) {
 		WheelConstraintBuilder constraintBuilder = getOwner().createWheelConstraint();
 		constraintBuilder.setFirstEntity(vehicle);
-		// point d'ancrage du véhicule :
+		// Point d'ancrage du véhicule :
 		constraintBuilder.setFirstAnchor(anchor);
 		// Entity associée à la roue :
 		constraintBuilder.setSecondEntity(this.getEntity());
-		// point d'ancrage de la roue (son centre) :
+		// Point d'ancrage de la roue (son centre) :
 		constraintBuilder.setSecondAnchor(Vector.ZERO);
-		// axe le long duquel la roue peut se déplacer :
+		// Axe le long duquel la roue peut se déplacer :
 		constraintBuilder.setAxis(axis);
-		// fréquence du ressort associé
+		// Fréquence du ressort associé
 		constraintBuilder.setFrequency(3.0f);
 		constraintBuilder.setDamping(0.5f);
-		// force angulaire maximale pouvant être appliquée 
-		//à la roue pour la faire tourner :
+		// Force angulaire maximale pouvant être appliquée 
+		// à la roue pour la faire tourner :
 		constraintBuilder.setMotorMaxTorque(10.0f);
 		constraint = constraintBuilder.build();
 		this.vehicle = vehicle;
@@ -71,9 +71,9 @@ public class Wheel extends GameEntity implements Actor {
 	public void update(float deltaTime) {
 	ContactListener listener = new ContactListener() {
 		@Override
-		//permet d'indiquer si les roues touchent quelquechose ou non 
+		// Ppermet d'indiquer si les roues touchent quelque chose ou non 
 		public void beginContact(Contact contact) {
-			//bien sur on ne peut pas sauter en s'appuyant sur un ghost
+			// Bien sûr on ne peut pas sauter en s'appuyant sur un ghost
 			if (contact.getOther().isGhost())
 				return;
 				ground = true;
@@ -87,23 +87,23 @@ public class Wheel extends GameEntity implements Actor {
 	getEntity().addContactListener(listener);
 	}
 
-	//permet de savoir si les roues touchent quelquechose ou non 
+	// Permet de savoir si les roues touchent quelque chose ou non 
 	public boolean getGround() {
 		return ground;
 	}
 	
-	//permet de faire tourner les roues a une force donnée
+	// Permet de faire tourner les roues a une force donnée
 	public void power(float speed) {
 		constraint.setMotorEnabled(true);
 		constraint.setMotorSpeed(speed);
 	}
 	
-	//desactive la motorisation
+	// Désactive la motorisation
 	public void relax() {
 		constraint.setMotorEnabled(false);
 	}
 	
-	//permet d'obtenir la vitesse des roues
+	// Permet d'obtenir la vitesse des roues
 	public float getSpeed() {
 		return constraint.getMotorSpeed() ;
 	}

@@ -16,12 +16,12 @@ public class Crate extends GameEntity implements Actor {
 
 	public Crate(ActorGame game, boolean fixed, Vector position, float width, float height, String name, boolean ghost) {
 		super(game, fixed, position);
-		//on construit la représentation graphique en fonction des parametres donnés
+		// On construit la représentation graphique en fonction des paramètres donnés
 		graphics = new ImageGraphics(name, width, height);
 
         PartBuilder partBuilder = getEntity().createPartBuilder(); 
         
-        //on constuit le part avec les parametres donnés
+        // On constuit le part avec les paramètres donnés
         Polygon polygon = new Polygon(
         		new Vector(0.0f, 0.0f),
         		new Vector(width, 0.0f),
@@ -29,7 +29,7 @@ public class Crate extends GameEntity implements Actor {
         		new Vector(0.0f, height ) ); 
         
         partBuilder.setShape(polygon);
-        //la crate peut etre ghost ou non
+        // La crate peut être ghost ou non
         partBuilder.setGhost(ghost);
         partBuilder.build();
         
@@ -37,7 +37,7 @@ public class Crate extends GameEntity implements Actor {
 	}
 	
 	
-	//supprimer des actors ???
+	// Supprimer des actors ???
 	@Override
 	public void destroy() {
 		getEntity().destroy();

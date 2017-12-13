@@ -26,9 +26,9 @@ public class Banana extends GameEntity implements Actor {
 	        		new Vector(0.0f, height ) ); 
 	        
 	        partBuilder.setShape(polygon);
-	        //on met les bananes dans le même groupe que les roues (on ne meure pas de ses propres bananes et cela permet de s'amuser dedans)
+	        // On met les bananes dans le même groupe que les roues (on ne meurt pas de ses propres bananes et cela permet de s'amuser dedans)
 	        partBuilder.setCollisionGroup(1);
-	        //La frictions est aussi haute pour que les bananes ne glissent pas en arrivant au sol
+	        // La frictions est aussi haute pour que les bananes ne glissent pas en arrivant au sol
 	        partBuilder.setFriction(50.0f);
 	        partBuilder.build();
 	        
@@ -56,9 +56,9 @@ public class Banana extends GameEntity implements Actor {
 			graphics.draw(canvas);
 		}
 
-		//methode que l'on appelle pour lancer des bananes à partir de BikeGame
+		// Méthode que l'on appelle pour lancer des bananes à partir de BikeGame
 		public void launch(boolean direction) {
-			//direction permet de choisir vers où lancer la banane
+			// Direction permet de choisir vers où lancer la banane
 			if (direction)
 			getEntity().applyImpulse(new Vector (-2.0f, 2.0f), null);
 			if (!direction)

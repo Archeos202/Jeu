@@ -24,19 +24,19 @@ public class BikeGame extends ActorGame {
 	private BoutonCrate bouton2;
 	private Crate frog;
 	private TextGraphics message;
-	//indique si le cycliste est touché
+	// Indique si le cycliste est touché
 	private boolean collision;
-	//indique que le joueur a gagné
+	// Indique que le joueur a gagné
 	private boolean victoire;
 
-	//indique si le premier bouton est touché
+	// Indique si le premier bouton est touché
 	private boolean boutonhit;
-	//indique si le deuxieme bouton est touché
+	// Indique si le deuxième bouton est touché
 	private boolean boutonhit2;
 	
 	public boolean begin(Window window, FileSystem fileSystem) {
 		super.begin(window, fileSystem);
-		//On crée tous les acteurs et on les ajoute a la liste des acteurs
+		// On crée tous les acteurs et on les ajoute a la liste des acteurs
 		Terrain terrain = new Terrain(this, new Vector(0f, 0f));
 		addActor(terrain);
 		Crate crate1 = new Crate(this , false, new Vector(3.0f ,5.0f), 1, 1, "crate.1.png", false);
@@ -67,13 +67,13 @@ public class BikeGame extends ActorGame {
 		addActor(arrow);
 		bike = new Bike(this, new Vector(-50.0f, 3.0f));
 		addActor(bike);
-		//On met la vue sur le cycliste
+		// On met la vue sur le cycliste
 		setViewCandidate(bike);
 		
-		//On indique que le cycliste n'est pas touché et n'a pas gagné (utile quand reset)
+		// On indique que le cycliste n'est pas touché et n'a pas gagné (utile quand reset)
 		collision = false;
 		victoire = false;
-		//On crée le message (vide)
+		// On crée le message (vide)
 		message = new TextGraphics("", 0.3f, Color.RED, Color.WHITE, 0.02f, true, false, new Vector(0.5f, 0.5f), 1.0f, 100.0f);
 		message.setParent(getCanvas()); 
 		message.setRelativeTransform(Transform.I.translated(0.0f, -1.0f));
@@ -82,13 +82,13 @@ public class BikeGame extends ActorGame {
 
 	public void update(float deltaTime) {
 		super.update(deltaTime);
-		//en premier, on regarde si le velo a été touché et on le signale si oui
+		// En premier, on regarde si le vélo a été touché et on le signale si oui
 		if (bike.getHit()) {
 			collision = true;
-			//la victoire n'est plus quand le cyliste est touché
+			// La victoire n'est plus quand le cyliste est touché
 			victoire = false;
 		}
-		//si le velo est touché on le supprime et on affiche un message
+		// Si le velo est touché on le supprime et on affiche un message
 		if (collision) {
 			message.setText("Ouch, restart!");
 			message.draw(getCanvas());					
@@ -96,26 +96,26 @@ public class BikeGame extends ActorGame {
 			deleteActor(bike);
 		}
 		
-		//on vérifie que les acteurs sont en vie, on les suprime dans le cas contraire
+		// On vérifie que les acteurs sont en vie, on les supprime dans le cas contraire
 		for (int i = 0; i < ActorList.size(); i++) {
 			if (!((GameEntity) ActorList.get(i)).getEntity().isAlive()) {
 				deleteActor(ActorList.get(i));
 			}
 		}
 		
-		//On crée et lance une banane a l'arriere du velo quand b est pressé
+		// On crée et lance une banane a l'arrière du vélo quand "B" est pressé
 		if (getKeyboard().get(KeyEvent.VK_B).isPressed()) {
-			Banana banana = new Banana(this, false, (bike.getPosition()), 0.5f, 0.5f, "banana.png");
+			Banana banana = new Banana(this, false, (bike.getPosition()), 0.5f, 0.5f, "banana.3.png");
 			addActor(banana);
 			banana.launch(bike.getRegard());
 		}
 		
-		//On verifie si le drapeau est touché, on le signale le cas échéant
+		// On vérifie si le drapeau est touché, on le signale le cas échéant
 		if (finish.getHit()) {
 			victoire = true;
 		}
 		
-		//si c'est une victoire, un message s'affiche, le cycliste leve les bras et la grenouille se transforme en princesse
+		// Si c'est une victoire, un message s'affiche, le cycliste lève les bras et la grenouille se transforme en princesse
 		if (victoire) {
 			message.setText("Congrats!");
 			message.draw(getCanvas());
@@ -125,14 +125,14 @@ public class BikeGame extends ActorGame {
 			addActor(princesse);
 		}
 		
-		//On verifie si le premier bouton est touché, si oui on le signal et on le détruit
+		// On verifie si le premier bouton est touché, si oui on le signale et on le détruit
 		if (bouton.getHit()) {
 			deleteActor(bouton);
 			bouton.destroy();
 			boutonhit = true;
 		}
 		
-		//si le premier bouton est touché, on crée les caisses correspondante et on remplace le bouton par le meme pressé
+		// Si le premier bouton est touché, on crée les caisses correspondantes et on remplace le bouton par le même pressé
 		if (boutonhit) {
 			Crate crate1 = new Crate(this , false, new Vector(-25.0f ,4.0f), 1, 1, "crate.1.png", false);
 			addActor(crate1);
@@ -154,31 +154,31 @@ public class BikeGame extends ActorGame {
 			addActor(crate9);
 			Crate bouton2 = new Crate(this, true, new Vector(-25.0f, 0.0f), 1, 1,"button.red.pressed.png", true);
 			addActor(bouton2);
-			//on change en false pour ne faire l'action qu'une fois par partie
+			// On change en false pour ne faire l'action qu'une fois par partie
 			boutonhit = false;
 		}
 		
-		//On verifie si le deuxieme bouton est touché, si oui on le signale
-		//et on le remplace par un bouton pressé
+		// On vérifie si le deuxième bouton est touché, si oui on le signale
+		// et on le remplace par un bouton pressé
 		if (bouton2.getHit()) {
 			deleteActor(bouton2);
 			bouton2.destroy();
 			boutonhit2 = true;
 		}
 		
-		//si le deuxieme bouton est touché, on crée un canard géant 
+		// Si le deuxieme bouton est touché, on crée un canard géant 
 		if (boutonhit2) {
 			Crate crate1 = new Crate(this , false, new Vector(85.0f ,3.0f), 10, 10, "duck.png", false);
 			addActor(crate1);
 			Crate bouton2 = new Crate(this, true, new Vector(90.0f, 0.0f), 1, 1,"button.blue.pressed.png", true);
 			addActor(bouton2);
-			//on change en false pour ne faire l'action qu'une fois par partie
+			// On change en false pour ne faire l'action qu'une fois par partie
 			boutonhit2 = false;	
 		}
 		
-		//On change les controles quand c est pressé
+		// On change les contrôles quand "C" est pressé
 		if (getKeyboard().get(KeyEvent.VK_C).isPressed()) {
-			//on vérifie quels controles sont actifs et on applique les autres
+			// On vérifie quels contrôles sont actifs et on applique les autres
 			if (bike.getControl()) 
 			bike.setControl(false);			
 			
@@ -186,7 +186,7 @@ public class BikeGame extends ActorGame {
 			bike.setControl(true);
 		}
 		
-		//Le jeu est reset (on le detruit pour le reconstruire) quand r est pressé
+		// Le jeu est reset (on le détruit pour le reconstruire) quand "R" est pressé
 		if (getKeyboard().get(KeyEvent.VK_R).isPressed()) {
 				this.end();
 				this.begin(getWindow(), getFileSystem());
@@ -199,7 +199,7 @@ public class BikeGame extends ActorGame {
 		}
 	}
 
-	//la methode end détruit tout les acteurs
+	// La méthode end détruit tout les acteurs
 	public void end() {
 		for (Actor actor : ActorList) {
 			actor.destroy();
