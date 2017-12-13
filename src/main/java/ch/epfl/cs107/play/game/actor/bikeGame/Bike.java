@@ -74,7 +74,7 @@ public class Bike extends GameEntity implements Actor {
 
 		ContactListener listener = new ContactListener() {
 			@Override
-			// On signale que le cycliste est touché si ce qui l'a touché ni ni une roue ni
+			// On signale que le cycliste est touché si ce qui l'a touché n'est ni une roue ni
 			// un ghost
 			public void beginContact(Contact contact) {
 				if (contact.getOther().isGhost())
@@ -162,12 +162,14 @@ public class Bike extends GameEntity implements Actor {
 		}
 		//la commande de saut commune
 		//On verifient que les roue touche un non-ghost et on fait sauter le velo
-		if (getOwner().getKeyboard().get(KeyEvent.VK_SHIFT).isPressed()
+		if ((getOwner().getKeyboard().get(KeyEvent.VK_SHIFT).isPressed())
 				&& (leftWheel.getGround() || rightWheel.getGround())) {
 			getEntity().applyImpulse(new Vector(0, 3), null);
 			leftWheel.getEntity().applyImpulse(new Vector(0, 3), null);
 			rightWheel.getEntity().applyImpulse(new Vector(0, 3), null);
 		}
+		
+		// Simule l'action de pédalage.
 		pedal(deltaTime);
 		
 		leftWheel.update(deltaTime);
@@ -241,7 +243,9 @@ public class Bike extends GameEntity implements Actor {
 			return new Vector(0.5f, 1.0f);
 		}
 	}
-
+	
+	// Méthodes permettant de simuler de manière approximative le mouvement des genoux le long d'une
+	// diagonale en fonction de la vitesse des roues (donc du cycliste en général) et de sa direction.
 	private Vector getUpdateLeftKneeLocation(float deltaTime) {
 		if (look) {
 			return new Vector(0.2f * ((float) Math.sin((double) leftWheel.getEntity().getAngularPosition())),
@@ -262,6 +266,8 @@ public class Bike extends GameEntity implements Actor {
 		}
 	}
 
+	// Méthode permettant de simuler le mouvement des pieds autour d'un cercle (simulation 
+	// d'un pédalier).
 	private Vector getUpdateLeftFootLocation(float deltaTime) {
 		if (look) {
 			return new Vector((float) (0.3f * Math.cos((double) leftWheel.getEntity().getAngularPosition())),
@@ -339,6 +345,7 @@ public class Bike extends GameEntity implements Actor {
 		leftWheel.draw(canvas);
 	}
 
+	// Méthode faisant lever les bras du cycliste en l'air en signe de joie ultime.
 	public void victoryArms() {
 		Polyline leftArm = new Polyline(getShoulderLocation(), getVictoryLeftHandLocation());
 		Polyline rightArm = new Polyline(getShoulderLocation(), getVictoryRightHandLocation());
@@ -348,6 +355,7 @@ public class Bike extends GameEntity implements Actor {
 		rightArmGraphics.setParent(getEntity());
 	}
 
+	// Méthode créant les cuisses et les avant-jambes du cycliste en simulant l'action de pédaler.
 	public void pedal(float deltaTime) {
 		Polyline leftFoot = new Polyline(getUpdateLeftKneeLocation(deltaTime), getUpdateLeftFootLocation(deltaTime));
 		Polyline rightFoot = new Polyline(getUpdateRightKneeLocation(deltaTime), getUpdateRightFootLocation(deltaTime));
