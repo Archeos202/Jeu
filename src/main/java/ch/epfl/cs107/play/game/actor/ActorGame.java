@@ -18,12 +18,6 @@ import ch.epfl.cs107.play.window.Canvas;
 import ch.epfl.cs107.play.window.Keyboard;
 import ch.epfl.cs107.play.window.Window;
 
-/* FileSystem dans la méthode begin
- * 
- * Actor est un Graphics, à méditer...
- * 
- */
-
 public abstract class ActorGame implements Game {
 
 	private ImageGraphics backGround;

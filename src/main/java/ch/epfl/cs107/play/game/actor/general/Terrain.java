@@ -1,4 +1,4 @@
-package ch.epfl.cs107.play.game.actor.bikeGame;
+package ch.epfl.cs107.play.game.actor.general;
 
 import java.awt.Color;
 
@@ -20,6 +20,7 @@ public class Terrain extends GameEntity implements Actor {
 			super(game, true, position);
 			
 	        PartBuilder partBuilder = getEntity().createPartBuilder(); 
+	        //on choisit la forme de notre terrain "normal"
 	        Polyline polyline = new Polyline( -1000.0f, -1000.0f,
 	        		-1000.0f, 0.0f,
 	        		0.0f, 0.0f,
@@ -48,8 +49,7 @@ public class Terrain extends GameEntity implements Actor {
 		//supprimer des actors ???
 		@Override
 		public void destroy() {
-			getEntity().destroy();
-			// PENSER A FAIRE DISPARAITRE GRAPHICS	
+			getEntity().destroy();	
 		}
 		
 		@Override

@@ -7,7 +7,7 @@ import ch.epfl.cs107.play.game.actor.Actor;
 import ch.epfl.cs107.play.game.actor.ActorGame;
 import ch.epfl.cs107.play.game.actor.GameEntity;
 import ch.epfl.cs107.play.game.actor.ShapeGraphics;
-import ch.epfl.cs107.play.game.actor.general.Wheel;
+import ch.epfl.cs107.play.game.actor.bikeGame.Wheel;
 import ch.epfl.cs107.play.math.Circle;
 import ch.epfl.cs107.play.math.Contact;
 import ch.epfl.cs107.play.math.ContactListener;
@@ -127,10 +127,14 @@ public class Bike extends GameEntity implements Actor {
 		}
 		if (!control) {
 			//les controles "alternatifs"
+			if (getOwner().getKeyboard().get(KeyEvent.VK_SPACE).isDown()) {
+				leftWheel.power(0.0f);
+				rightWheel.power(0.0f);
+			}
 			if (leftWheel.getSpeed() >= -MAX_WHEEL_SPEED) {
 				if (getOwner().getKeyboard().get(KeyEvent.VK_RIGHT).isDown()) {
 					leftWheel.power(-MAX_WHEEL_SPEED);
-					// on signifie que le regard change et on ne redessine le cycliste qu'une fois par appuie
+					// on signifie que le regard change et on ne redessine le cycliste qu'une fois par pression
 				}
 				if (getOwner().getKeyboard().get(KeyEvent.VK_RIGHT).isPressed()) {
 					look = true;

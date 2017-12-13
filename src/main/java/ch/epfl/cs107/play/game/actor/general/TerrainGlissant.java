@@ -1,4 +1,4 @@
-package ch.epfl.cs107.play.game.actor.bikeGame;
+package ch.epfl.cs107.play.game.actor.general;
 
 import java.awt.Color;
 
@@ -20,12 +20,14 @@ public class TerrainGlissant extends GameEntity implements Actor {
 			super(game, true, position);
 			
 	        PartBuilder partBuilder = getEntity().createPartBuilder(); 
+	        //on choisit la forme de notre terrain "glissant"
 	        Polyline polyline = new Polyline(0.0f, 0.f,
 	        		100.0f,0.0f,
 	        		100.0f, -100.0f,
 	        		0.0f, -100f
 	        		);
 	        partBuilder.setShape(polyline);
+	        //on reduit la friction pour que le terrain soit "glissant"
 	        partBuilder.setFriction(0.01f);
 	        partBuilder.build();
 	        graphics = new ShapeGraphics(polyline, Color.GREEN, Color.BLUE , 0.05f);
@@ -33,12 +35,9 @@ public class TerrainGlissant extends GameEntity implements Actor {
 	        graphics.setParent(getEntity());
 		}
 		
-		
-		//supprimer des actors ???
 		@Override
 		public void destroy() {
 			getEntity().destroy();
-			// PENSER A FAIRE DISPARAITRE GRAPHICS	
 		}
 		
 		@Override

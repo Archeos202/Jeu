@@ -18,7 +18,6 @@ import ch.epfl.cs107.play.window.Canvas;
 public class Finish extends GameEntity implements Actor {
 
 	private ImageGraphics graphics;
-	private BasicContactListener contactListener;
 	private Boolean hit;
 
 	public Finish(ActorGame game, Vector position) { 
@@ -30,20 +29,22 @@ public class Finish extends GameEntity implements Actor {
         		new Vector (0.0f, 2.0f)
         		);
         partBuilder.setShape(polyline);
+        //on ne veut pas percuter le drapeau
         partBuilder.setGhost(true);
         partBuilder.build();
-        
-        contactListener = new BasicContactListener();
-        getEntity().addContactListener(contactListener);
         
         graphics = new ImageGraphics("flag.red.png",2.0f, 2.0f);
         
         graphics.setParent(getEntity());
         
+        //on initialise le contact a false
         hit = false;
+        
+        //le contact listener indique quand le velo ou les roues touche le finish
         ContactListener listener = new ContactListener() {
 			@Override 
 			public void beginContact(Contact contact) {
+				//on ne veut signaler le contact du velo ou des roues
 				if (contact.getOther().getCollisionGroup()==2) 
 				hit = true;
 				} 
@@ -51,10 +52,11 @@ public class Finish extends GameEntity implements Actor {
 			public void endContact(Contact contact) {
 				hit = false;
 			} 
-				};
+		};
 		getEntity().addContactListener(listener);
 	}
 	
+	//permet de savoir si le drapeau est touché
 	public boolean getHit() {
 		return hit;
 	}

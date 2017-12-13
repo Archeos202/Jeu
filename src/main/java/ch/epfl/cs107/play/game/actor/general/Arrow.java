@@ -1,4 +1,4 @@
-package ch.epfl.cs107.play.game.actor.bikeGame;
+package ch.epfl.cs107.play.game.actor.general;
 
 import java.awt.event.KeyEvent;
 
