@@ -1,8 +1,11 @@
 Conception :
 - rien à signaler concernant l'architecture utilisée, nous avons utilisé celle fournit (nous avons cependant ajouté un parametre ghost a la classe crate)
-- Nous avons créer les classes de base : Terrain, Bike, BikeGame, Finish, Wheel
-Nous avons créer, en plus : 
+- Nous avons créer les classes de base : Terrain, Bike, BikeGame, Finish et Wheel
+Nous avons crée, en plus : 
 - des nouveaux controles dans bike pouvant etre interchangés avec les anciens en appuyant sur C
 - toujours dans bike (et en utilisant wheel), la posibilité de faire un saut
+- encore une fois dans bike, de nouvelles methodes lui permettant de lever les bras quand il gagne et de pédaler  
 - Une nouvelle classe Banane utilisé pour permettre de lancer des bananes en appuyant sur B
 - Une classe Terrain Glissant qui difère du Terrain classique par une friction bien moindre
+- Une nouvelle Classe Arrow qui nous permet de lancer une fleche au depart en appuyant sur UP
+- Une nouvelles classes BoutonCrate qui est une sorte de "GhostCrate" qui réagit au collision et permet d'enclencher des evenements quand il est touché 
