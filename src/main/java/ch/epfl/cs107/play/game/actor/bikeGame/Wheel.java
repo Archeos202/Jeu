@@ -1,4 +1,4 @@
-package ch.epfl.cs107.play.game.actor.general;
+package ch.epfl.cs107.play.game.actor.bikeGame;
 
 import ch.epfl.cs107.play.game.actor.Actor;
 import ch.epfl.cs107.play.game.actor.ActorGame;
@@ -21,7 +21,6 @@ public class Wheel extends GameEntity implements Actor {
 	//les roues ont leur contraintes, le vehicule auquel elles sont attachées et sa part comme attribut
 	private WheelConstraint constraint;
 	private Entity vehicle;
-	private Part part;
 	//ground indique si les roues touchent le sol
 	private boolean ground;
 	
@@ -42,7 +41,7 @@ public class Wheel extends GameEntity implements Actor {
 		partBuilder.setCollisionGroup(1);
 		// groupe 2 : etre detecter par le drapeau
 		partBuilder.setCollisionGroup(2);
-		part = partBuilder.build();
+		Part part = partBuilder.build();
 		graphics.setParent(getEntity());
 	}
 	
